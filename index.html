@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هنر پرامپت نویسی | دوره کامل</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        :root {
+            --jade-50: #f0fdf6; --jade-100: #dafbec; --jade-200: #b7f5d8; --jade-300: #80ebbb;
+            --jade-400: #43d99a; --jade-500: #1bc07e; --jade-600: #0f9e68; --jade-700: #0c7f55;
+            --jade-800: #0e6546; --jade-900: #0d533b; --jade-950: #062e21;
+            --white: #ffffff; --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+            --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280; --gray-600: #4b5563;
+            --gray-700: #374151; --gray-800: #1f2937; --gray-900: #111827;
+            --prompt-bg: #f0fdf6; --prompt-border: #80ebbb;
+            --example-bad-bg: #fef2f2; --example-bad-border: #fecaca;
+            --example-good-bg: #f0fdf6; --example-good-border: #80ebbb;
+            --highlight: #1bc07e; --highlight-light: #dafbec;
+            --correct-color: #10b981; --wrong-color: #ef4444; --card-bg: #f8fdf9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif; background-color: var(--gray-50); color: var(--gray-800); line-height: 2; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { width: 100%; background: linear-gradient(135deg, var(--jade-800) 0%, var(--jade-600) 50%, var(--jade-700) 100%); color: var(--white); padding: 32px 20px; text-align: center; box-shadow: 0 4px 20px rgba(12, 127, 85, 0.25); position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+        .header::after { content: ''; position: absolute; bottom: -40px; left: -40px; width: 150px; height: 150px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+        .header-content { position: relative; z-index: 1; }
+        .header h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 8px; }
+        .header .subtitle { font-size: 1.1rem; font-weight: 400; opacity: 0.9; margin-bottom: 4px; }
+        .header .instructor { font-size: 1rem; font-weight: 500; opacity: 0.85; display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 20px; border-radius: 30px; margin-top: 6px; }
+        .main-container { width: 100%; max-width: 800px; padding: 28px 20px 40px; flex: 1; }
+        .page-card { background: var(--white); border-radius: 20px; padding: 36px 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 24px; border: 1px solid var(--gray-200); }
+        .breadcrumb { display: inline-flex; align-items: center; gap: 8px; background: var(--jade-50); color: var(--jade-700); padding: 8px 18px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; margin-bottom: 24px; border: 1px solid var(--jade-200); }
+        .breadcrumb .dot { width: 6px; height: 6px; background: var(--jade-500); border-radius: 50%; }
+        .section-title { font-size: 1.5rem; font-weight: 900; color: var(--jade-800); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 3px solid var(--jade-300); display: flex; align-items: center; gap: 10px; }
+        .section-title .icon { font-size: 1.6rem; }
+        h3 { font-size: 1.2rem; font-weight: 800; color: var(--jade-700); margin-top: 24px; margin-bottom: 10px; }
+        p { margin-bottom: 14px; text-align: justify; color: var(--gray-700); }
+        .prompt-box { background: var(--prompt-bg); border: 2px solid var(--prompt-border); border-radius: 14px; padding: 18px 20px; margin: 16px 0; font-size: 0.95rem; position: relative; color: var(--gray-800); }
+        .prompt-box .label { position: absolute; top: -14px; right: 20px; background: var(--jade-600); color: white; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .prompt-box.bad { background: var(--example-bad-bg); border-color: var(--example-bad-border); }
+        .prompt-box.bad .label { background: #ef4444; }
+        .prompt-box.good { background: var(--example-good-bg); border-color: var(--example-good-border); }
+        .prompt-box.good .label { background: var(--jade-600); }
+        .info-box { background: #f0fdf6; border: 2px solid #80ebbb; border-radius: 14px; padding: 18px 20px; margin: 16px 0; font-size: 0.95rem; position: relative; color: var(--gray-800); }
+        .info-box .label { position: absolute; top: -14px; right: 20px; background: var(--jade-600); color: white; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .highlight { background: var(--highlight-light); color: var(--jade-800); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+        .styled-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+        .styled-table thead { background: var(--jade-600); color: white; }
+        .styled-table th { padding: 14px 12px; font-weight: 700; text-align: center; }
+        .styled-table td { padding: 12px; border-bottom: 1px solid var(--gray-200); text-align: center; background: white; }
+        .styled-table tbody tr:hover td { background: var(--jade-50); }
+        ul, ol { padding-right: 24px; margin-bottom: 14px; }
+        li { margin-bottom: 8px; color: var(--gray-700); }
+        li strong { color: var(--jade-700); }
+        .end-section { text-align: center; background: linear-gradient(135deg, var(--jade-50), var(--jade-100)); border: 2px dashed var(--jade-300); border-radius: 16px; padding: 20px; margin: 28px 0; font-weight: 800; font-size: 1.15rem; color: var(--jade-700); }
+        .divider { border: none; border-top: 2px dashed var(--jade-200); margin: 32px 0; }
+        .footer { width: 100%; background: var(--gray-800); color: var(--gray-300); text-align: center; padding: 18px 20px; font-size: 0.85rem; margin-top: auto; font-weight: 500; letter-spacing: 0.5px; }
+        .footer .brand { color: var(--jade-400); font-weight: 700; }
+        .use-case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .use-case-card { background: var(--card-bg); border: 1px solid var(--jade-200); border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; transition: all 0.2s ease; }
+        .use-case-card:hover { border-color: var(--jade-400); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(12,127,85,0.06); }
+        .use-case-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+        .use-case-text { font-size: 0.9rem; font-weight: 600; color: var(--gray-700); line-height: 1.6; }
+        .quote-box { background: var(--prompt-bg); border-right: 5px solid var(--jade-500); border-radius: 10px; padding: 18px 20px; margin: 20px 0; font-size: 1rem; font-weight: 500; color: var(--jade-800); position: relative; }
+        .quote-box::before { content: '❝'; font-size: 2.5rem; color: var(--jade-300); position: absolute; top: 8px; right: 16px; opacity: 0.7; }
+        .quote-box .quote-text { padding-right: 36px; }
+        .learning-objectives { background: linear-gradient(135deg, var(--jade-50), var(--jade-100)); border: 2px solid var(--jade-300); border-radius: 14px; padding: 20px 24px; margin: 20px 0; }
+        .learning-objectives h3 { margin-top: 0; color: var(--jade-800); }
+        .learning-objectives ul { margin-bottom: 0; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .back-btn { text-align: center; margin-top: 24px; }
+        .back-btn button { background: var(--jade-600); color: white; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif; font-size: 0.95rem; }
+        .back-btn button:hover { background: var(--jade-700); }
+        .quiz-section { background: linear-gradient(135deg, #f8fdf9 0%, #f0fdf6 100%); border: 2px solid var(--jade-300); border-radius: 20px; padding: 28px 24px; margin-top: 32px; }
+        .quiz-title { text-align: center; font-size: 1.4rem; font-weight: 900; color: var(--jade-700); margin-bottom: 8px; }
+        .quiz-subtitle { text-align: center; font-size: 0.9rem; color: var(--gray-500); margin-bottom: 24px; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 10px 16px; border-radius: 30px; font-weight: 700; color: var(--jade-700); font-size: 0.9rem; border: 1px solid var(--jade-200); }
+        .quiz-progress .counter { background: var(--jade-600); color: white; padding: 4px 14px; border-radius: 20px; }
+        .question-text { font-size: 1.1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 20px; line-height: 1.8; }
+        .options-list { list-style: none; padding: 0; }
+        .option-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin-bottom: 10px; background: white; border: 2px solid var(--gray-200); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; font-weight: 500; }
+        .option-item:hover { border-color: var(--jade-400); background: var(--jade-50); transform: translateX(-4px); }
+        .option-item.selected { border-color: var(--jade-500); background: var(--jade-50); }
+        .option-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gray-300); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
+        .option-item.selected .option-radio { border-color: var(--jade-500); background: var(--jade-500); }
+        .option-item.selected .option-radio::after { content: ''; width: 10px; height: 10px; background: white; border-radius: 50%; }
+        .quiz-btn { display: inline-block; padding: 12px 28px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.25s ease; border: none; font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif; margin-top: 8px; }
+        .btn-next { background: var(--jade-600); color: white; width: 100%; text-align: center; }
+        .btn-next:hover { background: var(--jade-700); }
+        .btn-next:disabled { background: var(--gray-300); cursor: not-allowed; }
+        .btn-restart { background: white; color: var(--jade-700); border: 2px solid var(--jade-300); }
+        .btn-restart:hover { background: var(--jade-50); border-color: var(--jade-500); }
+        .result-box { text-align: center; padding: 24px 0; }
+        .result-icon { font-size: 4rem; margin-bottom: 12px; }
+        .result-score { font-size: 3rem; font-weight: 900; color: var(--jade-600); margin-bottom: 8px; }
+        .result-detail { font-size: 1.1rem; color: var(--gray-600); margin-bottom: 20px; }
+        .result-detail span { font-weight: 800; }
+        .result-detail .correct-count { color: var(--correct-color); }
+        .result-detail .wrong-count { color: var(--wrong-color); }
+        .result-bar { width: 100%; height: 12px; background: var(--gray-200); border-radius: 20px; overflow: hidden; margin-bottom: 20px; }
+        .result-bar-fill { height: 100%; background: linear-gradient(90deg, var(--jade-400), var(--jade-600)); border-radius: 20px; transition: width 0.8s ease; }
+        .fihrist-item { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: white; border: 2px solid var(--gray-200); border-radius: 14px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 10px; font-weight: 700; color: var(--gray-700); }
+        .fihrist-item:hover { border-color: var(--jade-400); background: var(--jade-50); transform: translateX(-4px); }
+        .fihrist-icon { font-size: 2rem; flex-shrink: 0; }
+        .fihrist-info { flex: 1; }
+        .fihrist-title { font-size: 1.1rem; color: var(--gray-800); }
+        .fihrist-desc { font-size: 0.8rem; color: var(--gray-500); font-weight: 500; }
+        .fihrist-arrow { color: var(--jade-400); font-size: 1.2rem; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.6rem; } .page-card { padding: 20px 16px; } .section-title { font-size: 1.2rem; }
+            .quiz-section { padding: 20px 14px; } .question-text { font-size: 1rem; } .use-case-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>🎯 هنر پرامپت نویسی</h1>
+            <div class="subtitle">دوره جامع و کاربردی ارتباط با هوش مصنوعی مولد</div>
+            <div class="instructor">👨‍🏫 مدرس: جلال صالحی</div>
+        </div>
+    </header>
+    <main class="main-container">
+        <!-- ==================== فهرست ==================== -->
+        <article class="page-card" id="fihristPage">
+            <div class="section-title"><span class="icon">📚</span> فهرست دوره</div>
+            <p style="text-align:center;color:var(--gray-500);margin-bottom:24px;">برای مشاهده هر بخش، روی آن کلیک کنید</p>
+            <div class="fihrist-item" onclick="showContent('roshangari')"><span class="fihrist-icon">💡</span><div class="fihrist-info"><div class="fihrist-title">روشنگری (ضروری)</div><div class="fihrist-desc">آشنایی با هوش مصنوعی، انواع آن، پرامپت چیست و اصول اولیه — ۱۰ سوال</div></div><span class="fihrist-arrow">←</span></div>
+            <div class="fihrist-item" onclick="showContent('chapter1')"><span class="fihrist-icon">📘</span><div class="fihrist-info"><div class="fihrist-title">فصل اول: پرامپت نویسی برای محتوای متنی</div><div class="fihrist-desc">مشاوره، ایده‌پردازی، برنامه‌ریزی، آموزش، شبکه‌های اجتماعی و... — ۱۵ سوال</div></div><span class="fihrist-arrow">←</span></div>
+            <div class="fihrist-item" onclick="showContent('chapter2')"><span class="fihrist-icon">🎨</span><div class="fihrist-info"><div class="fihrist-title">فصل دوم: پرامپت نویسی برای تولید تصویر</div><div class="fihrist-desc">لوگو، پوستر، کارت ویزیت، استوری، اینفوگرافیک، کاراکتر و... — ۱۵ سوال</div></div><span class="fihrist-arrow">←</span></div>
+            <div class="fihrist-item" onclick="showContent('chapter3')"><span class="fihrist-icon">📄</span><div class="fihrist-info"><div class="fihrist-title">فصل سوم: پرامپت نویسی برای ساخت فایل</div><div class="fihrist-desc">اسلاید، PDF، اکسل، ورد، فرم و چک‌لیست — ۱۵ سوال</div></div><span class="fihrist-arrow">←</span></div>
+            <div class="fihrist-item" onclick="showContent('chapter4')"><span class="fihrist-icon">💻</span><div class="fihrist-info"><div class="fihrist-title">فصل چهارم: پرامپت نویسی برای کدنویسی</div><div class="fihrist-desc">وبسایت، اپلیکیشن، اسکریپت، بات، بازی و... — ۱۵ سوال</div></div><span class="fihrist-arrow">←</span></div>
+            <div class="fihrist-item" onclick="showContent('chapter5')"><span class="fihrist-icon">🎬</span><div class="fihrist-info"><div class="fihrist-title">فصل پنجم: پرامپت نویسی برای صدا و ویدئو</div><div class="fihrist-desc">پادکست، کتاب صوتی، موسیقی، ویدئو، آواتار سخنگو — ۱۵ سوال</div></div><span class="fihrist-arrow">←</span></div>
+        </article>
+
+        <!-- ==================== روشنگری ==================== -->
+       <!-- ==================== روشنگری ==================== -->
+<!-- این کد را دقیقاً به جای کامنت "محتوای روشنگری اینجا قرار می‌گیرد" در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="roshangari">
+    <div class="breadcrumb">💡 روشنگری (ضروری)</div>
+    <div class="section-title"><span class="icon">👋</span> به دنیای پرامپت نویسی خوش آمدید</div>
+
+    <p>من <strong>جلال صالحی</strong> هستم، معلم و مشاور. حدود دو سال است با ابزارهای هوش مصنوعی کار می‌کنم و حالا می‌خواهم عصاره تجربیات خودم و آموخته‌هایم از دوره‌های بین‌المللی را با شما به اشتراک بگذارم. این دوره درباره <span class="highlight">هنر پرامپت نویسی</span> است — مهارتی که به شما امکان می‌دهد با هوش مصنوعی مولد به زبان خودش صحبت کنید و نتایج شگفت‌انگیزی بگیرید.</p>
+
+    <div class="learning-objectives">
+        <h3>🎯 آنچه در این دوره خواهید آموخت:</h3>
+        <ul>
+            <li>پرامپت نویسی برای <strong>محتوای متنی</strong> (مشاوره، ایده‌پردازی، برنامه‌ریزی، آموزش، شبکه‌های اجتماعی، داستان‌نویسی، ترجمه، خلاصه‌سازی، نامه‌نگاری، تحلیل و نقد)</li>
+            <li>پرامپت نویسی برای <strong>تولید تصویر</strong> (لوگو، پوستر، کارت ویزیت، استوری، بنر، اینفوگرافیک، کاراکتر)</li>
+            <li>پرامپت نویسی برای <strong>ساخت فایل</strong> (اسلاید، PDF، اکسل، ورد، فرم و چک‌لیست)</li>
+            <li>پرامپت نویسی برای <strong>کدنویسی</strong> (وبسایت، اپلیکیشن، اسکریپت، بات، بازی)</li>
+            <li>پرامپت نویسی برای <strong>صدا و ویدئو</strong> (پادکست، کتاب صوتی، موسیقی، ویدئو، آواتار سخنگو)</li>
+        </ul>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-title"><span class="icon">🤖</span> هوش مصنوعی چیست؟ — یک تعریف ساده و دقیق</div>
+    <p><strong>هوش مصنوعی (Artificial Intelligence یا AI)</strong> شاخه‌ای از علوم کامپیوتر است که سیستم‌هایی می‌سازد capable از انجام کارهایی که پیش‌تر فقط انسان می‌توانست انجام دهد: فهمیدن زبان، یادگیری از داده‌ها، تصمیم‌گیری و خلق محتوای جدید.</p>
+    <p>اما اجازه بدهید یک تشبیه ساده و ماندگار برایتان بگویم: <strong>هوش مصنوعی مثل یک ماشین حساب بسیار پیشرفته است.</strong> وقتی از ماشین حساب می‌پرسید «دو به اضافه دو چند می‌شود؟»، او از خود نمی‌پرسد «چرا این سوال را می‌پرسی؟» یا «امروز حوصله ندارم». فقط پاسخ را نشان می‌دهد: ۴. هوش مصنوعی مولد هم دقیقاً همین طور کار می‌کند — فقط در مقیاسی بسیار بزرگتر و پیچیده‌تر. <strong>ورودی می‌گیرد، الگوها را می‌بیند، خروجی تحویل می‌دهد.</strong> شعور، احساس و اراده ندارد. فکر نمی‌کند — الگوها را بازتولید می‌کند.</p>
+
+    <hr class="divider">
+
+    <div class="section-title"><span class="icon">🗂️</span> انواع هوش مصنوعی — ما با کدام نوع کار داریم؟</div>
+    <p>بسیاری از افراد فکر می‌کنند «هوش مصنوعی» یک چیز واحد است. اما حقیقت این است که <strong>هوش مصنوعی یک واژه چتری است</strong> که گونه‌های کاملاً متفاوتی را در بر می‌گیرد — درست مثل واژه «ورزش» که هم فوتبال را شامل می‌شود، هم شنا را و هم شطرنج را. بیایید چهار نوع اصلی را بشناسیم:</p>
+
+    <table class="styled-table">
+        <thead><tr><th>نوع هوش مصنوعی</th><th>چه کار می‌کند؟</th><th>مثال واقعی</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><strong>AI تحلیلی</strong><br>(Analytical AI)</td>
+                <td>داده‌ها را تحلیل می‌کند، الگو کشف می‌کند، پیش‌بینی می‌کند. <strong>فقط تحلیل می‌کند — خلق نمی‌کند.</strong></td>
+                <td>تشخیص چهره در گوشی، پیشنهاد فیلم در نتفلیکس، شناسایی تراکنش بانکی مشکوک</td>
+            </tr>
+            <tr>
+                <td><strong>AI مولد</strong><br>(Generative AI)</td>
+                <td>محتوای <strong>جدید</strong> خلق می‌کند: متن می‌نویسد، عکس می‌سازد، کد می‌زند، موسیقی تولید می‌کند. <strong>این همان چیزی است که ما در این دوره با آن کار داریم!</strong></td>
+                <td>ChatGPT، Midjourney، DALL-E، Suno AI، GitHub Copilot</td>
+            </tr>
+            <tr>
+                <td><strong>AI عمومی</strong><br>(AGI)</td>
+                <td>می‌تواند <strong>هر</strong> کاری که یک انسان می‌تواند انجام دهد، انجام دهد. <strong>هنوز ساخته نشده است.</strong></td>
+                <td>فعلاً فقط در فیلم‌ها (مانند JARVIS در Iron Man)</td>
+            </tr>
+            <tr>
+                <td><strong>AI فوق هوشمند</strong><br>(ASI)</td>
+                <td>از مجموع توانایی‌های شناختی کل بشریت فراتر می‌رود. <strong>کاملاً علمی-تخیلی است.</strong></td>
+                <td>فیلم‌هایی مانند Her و Ex Machina</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>تکلیف ما کاملاً روشن است.</strong> در این دوره، ما منحصراً با <span class="highlight">هوش مصنوعی مولد (Generative AI)</span> کار داریم — همان فناوری‌ای که پشت ChatGPT، Midjourney و سایر ابزارهای تولید محتوا قرار دارد. و یک نکته بسیار مهم: <strong>این AI قرار نیست شغل شما را بگیرد.</strong> این یک ابزار است — مثل چکش. نجار ماهر با چکش کابینت می‌سازد. کسی که بلد نیست، فقط انگشتش را می‌کوبد. <strong>مهارت استفاده از ابزار است که فرق را ایجاد می‌کند، نه خود ابزار.</strong></p>
+
+    <hr class="divider">
+
+    <div class="section-title"><span class="icon">🧠</span> مدل‌های زبانی بزرگ (LLM) چگونه کار می‌کنند؟</div>
+    <h3>🧩 LLM چیست؟</h3>
+    <p>تصور کنید کودکی را از بدو تولد در یک کتابخانه عظیم با میلیاردها کتاب رها کرده‌اید. این کودک هیچ شناختی از دنیای بیرون ندارد — فقط می‌خواند. جمله پشت جمله. کلمه پشت کلمه. آنقدر می‌خواند که <strong>الگوهای جمله‌بندی، ترکیب کلمات و ارتباط مفاهیم</strong> در ذهن او نهادینه می‌شود. حالا از او سوالی می‌پرسید. او بر اساس الگوهایی که خوانده، <strong>محتمل‌ترین پاسخ</strong> را به شما می‌دهد. او واقعاً معنای سوال شما را نمی‌فهمد — فقط الگوهای زبانی را تشخیص می‌دهد.</p>
+    <p><span class="highlight">مدل زبانی بزرگ (Large Language Model - LLM) دقیقاً همین است.</span> نرم‌افزاری که روی حجم عظیمی از متون — کتاب‌ها، مقالات علمی، صفحات وب، مخازن کد و... — آموزش دیده است. <strong>پس LLM در اصل یک «ماشین پیش‌بینی کلمه بعدی» است.</strong> کلمه بعدی را پیش‌بینی می‌کند، بعد کلمه بعدی، و به همین ترتیب جمله‌ها و پاراگراف‌ها را می‌سازد.</p>
+
+    <h3>⚠️ هشدار مهم: پدیده توهم (Hallucination)</h3>
+    <p>گاهی اوقات این پیش‌بینی <strong>کاملاً اشتباه</strong> است، اما با چنان اعتماد به نفسی بیان می‌شود که ممکن است گول بخورید. به این پدیده «توهم» می‌گویند. <strong>هرگز خروجی AI را به عنوان حقیقت مطلق نپذیرید.</strong> به‌ویژه در موضوعات تخصصی، همیشه اطلاعات را راستی‌آزمایی کنید.</p>
+
+    <hr class="divider">
+
+    <div class="section-title"><span class="icon">✍️</span> پرامپت چیست و پرامپت نویسی یعنی چه؟</div>
+    <h3>پرامپت (Prompt) چیست؟</h3>
+    <p><strong>پرامپت</strong> همان <strong>ورودی یا درخواستی است که شما به هوش مصنوعی می‌دهید.</strong></p>
+    <h3>پرامپت نویسی (Prompt Writing) چیست؟</h3>
+    <p><span class="highlight">هنر و مهارت طراحی یک درخواست شفاف، دقیق، هدفمند و کامل، به گونه‌ای که AI دقیقاً بفهمد چه می‌خواهید و بهترین پاسخ را تولید کند.</span></p>
+
+    <h3>🏆 ۷ ویژگی یک پرامپت حرفه‌ای</h3>
+    <ol>
+        <li><strong>شفافیت (Clarity):</strong> اولین و مهم‌ترین اصل.</li>
+        <li><strong>کامل بودن (Completeness):</strong> اطلاعات ناقص = پاسخ ناقص.</li>
+        <li><strong>زمینه (Context):</strong> بگویید کی هستید و در چه موقعیتی.</li>
+        <li><strong>هدفمندی (Purpose):</strong> «چرا» را هم بگویید.</li>
+        <li><strong>قالب مشخص (Format):</strong> پاراگراف؟ جدول؟ لیست؟</li>
+        <li><strong>لحن (Tone):</strong> رسمی، صمیمی، طنز...</li>
+        <li><strong>محدودیت‌ها (Constraints):</strong> تعداد کلمات، مخاطب هدف...</li>
+    </ol>
+
+    <h3>📋 یک مثال واقعی</h3>
+    <div class="prompt-box bad"><span class="label">❌ پرامپت ضعیف</span>«برام یه رژیم غذایی بنویس.»</div>
+    <div class="prompt-box good"><span class="label">✅ پرامپت حرفه‌ای</span>«من یک کارمند ۳۵ ساله هستم. صبح‌ها وقت درست کردن صبحانه ندارم. یک برنامه غذایی سه روزه برایم طراحی کن که <strong>مواد اولیه‌اش ساده و در هر خانه‌ای پیدا شود.</strong> هر روز را با یک ایموجی مشخص کن و در پایان هر روز یک جمله انگیزشی کوتاه بگذار. <strong>هدف اصلی من افزایش انرژی روزانه است،</strong> نه کاهش وزن. خروجی را به صورت جدول با ستون‌های «روز»، «صبحانه»، «ناهار»، «شام» و «میان‌وعده» آماده کن.»</div>
+
+    <hr class="divider">
+
+    <div class="section-title"><span class="icon">🧰</span> ابزارهای رایگان یا دارای اشتراک رایگان</div>
+    <table class="styled-table">
+        <thead><tr><th>ابزار</th><th>قیمت</th><th>کاربرد اصلی</th></tr></thead>
+        <tbody>
+            <tr><td><strong>ChatGPT</strong></td><td>رایگان / Plus</td><td>همه‌کاره — بهترین نقطه شروع</td></tr>
+            <tr><td><strong>Claude</strong></td><td>رایگان</td><td>تحلیل متون بلند، لحن فوق‌العاده انسانی</td></tr>
+            <tr><td><strong>Gemini</strong></td><td>رایگان</td><td>اتصال به اکوسیستم گوگل</td></tr>
+            <tr><td><strong>Copilot</strong></td><td>رایگان</td><td>یکپارچه با ویندوز و آفیس</td></tr>
+            <tr><td><strong>DeepSeek</strong></td><td>رایگان</td><td>چت‌بات قدرتمند — رقیب ChatGPT</td></tr>
+            <tr><td><strong>Midjourney</strong></td><td>محدود رایگان</td><td>بهترین برای تصاویر هنری</td></tr>
+            <tr><td><strong>Leonardo.ai</strong></td><td>رایگان (۱۵۰ اعتبار روزانه)</td><td>تولید تصویر رایگان</td></tr>
+            <tr><td><strong>Gamma.app</strong></td><td>رایگان</td><td>ساخت اسلاید و پرزنتیشن</td></tr>
+            <tr><td><strong>ElevenLabs</strong></td><td>رایگان (۱۰ دقیقه در ماه)</td><td>تبدیل متن به گفتار</td></tr>
+            <tr><td><strong>Suno AI</strong></td><td>رایگان (۵ آهنگ در روز)</td><td>تولید موسیقی</td></tr>
+            <tr><td><strong>CapCut</strong></td><td>رایگان</td><td>تدوین ویدئو با AI</td></tr>
+        </tbody>
+    </table>
+
+    <div class="end-section">💡 پایان روشنگری — آماده برای فصل اول</div>
+
+    <!-- ==================== آزمون روشنگری ==================== -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون روشنگری</div>
+        <div class="quiz-subtitle">۱۰ سوال چهارگزینه‌ای — پاسخ‌ها تصادفی توزیع شده‌اند</div>
+        <div id="quizRoshangari"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <!-- اسکریپت آزمون — داخل همین article -->
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'بهترین تشبیه برای هوش مصنوعی در این دوره چیست؟', o: ['ربات انسان‌نما', 'یک جعبه جادویی', 'ماشین حساب بسیار پیشرفته', 'موجود آگاه و متفکر'], c: 2 },
+            { q: 'کدام نوع هوش مصنوعی محتوای جدید خلق می‌کند و ما در این دوره با آن کار داریم؟', o: ['AI تحلیلی', 'AI فوق هوشمند (ASI)', 'AI مولد (Generative AI)', 'AI عمومی (AGI)'], c: 2 },
+            { q: 'پرامپت (Prompt) دقیقاً چیست؟', o: ['پاسخ AI به سوال ما', 'یک زبان برنامه‌نویسی', 'ورودی یا درخواستی که به AI می‌دهیم', 'نوع خاصی از هوش مصنوعی'], c: 2 },
+            { q: 'یک پرامپت حرفه‌ای چند ویژگی اصلی دارد؟', o: ['۳ ویژگی', '۱۰ ویژگی', '۵ ویژگی', '۷ ویژگی'], c: 3 },
+            { q: 'مدل زبانی بزرگ (LLM) اساساً چگونه کار می‌کند؟', o: ['با فکر کردن و استدلال', 'با جستجو در اینترنت', 'با پیش‌بینی محتمل‌ترین کلمه بعدی', 'با ترجمه همزمان'], c: 2 },
+            { q: 'پدیده «توهم» (Hallucination) در AI به چه معناست؟', o: ['AI خواب می‌بیند', 'AI تصاویر غیرواقعی می‌سازد', 'AI خاموش می‌شود', 'ارائه اطلاعات اشتباه با اعتماد به نفس بالا'], c: 3 },
+            { q: 'کدام یک از ابزارهای زیر برای تولید متن رایگان است؟', o: ['ChatGPT', 'Photoshop', 'Adobe Premiere', 'AutoCAD'], c: 0 },
+            { q: 'کدام نوع AI <strong>هنوز</strong> وجود ندارد و فقط در فیلم‌ها دیده می‌شود؟', o: ['AI تحلیلی', 'AI عمومی (AGI)', 'AI مولد', 'ChatGPT'], c: 1 },
+            { q: 'کدام ابزار رایگان (۱۵۰ اعتبار روزانه) برای تولید تصویر استفاده می‌شود؟', o: ['Microsoft Word', 'Spotify', 'Leonardo.ai', 'Zoom'], c: 2 },
+            { q: 'اولین و مهم‌ترین اصل در پرامپت نویسی چیست؟', o: ['تعیین لحن', 'انتخاب ابزار', 'نوشتن نتیجه', 'شفاف‌سازی خواسته'], c: 3 }
+        ];
+
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizRoshangari');
+
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qrSelect(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qrNext()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+
+        window.qrSelect = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qrNext = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! روشنگری را کامل آموختی.' : p >= 70 ? 'خوب است! آماده فصل اول.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qrRestart()">🔄 شروع دوباره</button></div>';
+        }
+
+        window.qrRestart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        <article class="page-card content-section" id="roshangari">
+            <!-- محتوای روشنگری اینجا قرار می‌گیرد -->
+        </article>
+
+        <!-- ==================== فصل اول ==================== -->
+       <!-- ==================== فصل اول ==================== -->
+<!-- این کد را دقیقاً به جای خطوط مربوط به فصل اول در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="chapter1" style="text-align: justify;">
+    <div class="breadcrumb">📘 فصل اول</div>
+    <div class="section-title"><span class="icon">📝</span> پرامپت نویسی برای محتوای متنی</div>
+
+    <p style="text-align: justify;">محتوای متنی پرکاربردترین و پایه‌ای‌ترین خروجی هوش مصنوعی مولد است. از یک مشاوره ساده تا یک تحلیل عمیق، از یک کپشن اینستاگرام تا یک قرارداد حقوقی، از یک داستان کوتاه تا یک مقاله علمی — همه و همه با <strong>پرامپت نویسی متنی</strong> قابل انجام است. در این فصل، فراتر از اصول اولیه می‌رویم و تکنیک‌های پیشرفته‌ای را یاد می‌گیرید که شما را از یک کاربر معمولی به یک <strong>مهندس پرامپت حرفه‌ای</strong> تبدیل می‌کند.</p>
+
+    <div class="info-box"><span class="label">💡 پیش‌نیاز</span>اگر بخش «روشنگری» را نخوانده‌اید، توصیه می‌کنیم ابتدا آن را مطالعه کنید. مفاهیم پایه‌ای مانند چیستی AI، انواع آن، مدل‌های زبانی بزرگ (LLM) و تعریف پرامپت در آن بخش توضیح داده شده است.</div>
+
+    <!-- ============================================ -->
+    <!--   USE CASES                                 -->
+    <!-- ============================================ -->
+    <h3>📍 با پرامپت نویسی متنی چه کارهایی می‌توانیم انجام دهیم؟</h3>
+    <p style="text-align: justify;">قبل از ورود به تکنیک‌ها، ببینیم این مهارت در چه موقعیت‌های واقعی به کار می‌آید. هر یک از این موقعیت‌ها را با یک مثال واقعی بررسی می‌کنیم:</p>
+
+    <div class="use-case-grid">
+        <div class="use-case-card"><span class="use-case-icon">🤝</span><span class="use-case-text"><strong>مشاوره و تحلیل مسائل:</strong> تصمیم‌گیری شغلی، تحلیل روابط، بررسی ایده‌های تجاری، حل تعارضات خانوادگی، دوراهی‌های زندگی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">💡</span><span class="use-case-text"><strong>ایده‌پردازی خلاقانه:</strong> نام‌گذاری برند، طراحی کمپین تبلیغاتی، ایده برای محتوای شبکه‌های اجتماعی، طوفان فکری برای محصول جدید</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📅</span><span class="use-case-text"><strong>برنامه‌ریزی:</strong> برنامه روزانه، هفتگی، سفر، پروژه، درسی، مالی، ورزشی، مهاجرت، بازنشستگی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🎓</span><span class="use-case-text"><strong>آموزش و یادگیری:</strong> یادگیری زبان خارجی، مهارت فنی، آمادگی امتحان، درک مفاهیم پیچیده علمی، آموزش به کودکان</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📱</span><span class="use-case-text"><strong>شبکه‌های اجتماعی:</strong> کپشن اینستاگرام، پست لینکدین، توییت، بیوگرافی، تقویم محتوایی، پاسخ به کامنت‌ها</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📖</span><span class="use-case-text"><strong>داستان‌نویسی و روایت‌گری:</strong> داستان کوتاه، رمان، خاطره، قصه کودک، فیلمنامه، نمایشنامه، داستان برند</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🌐</span><span class="use-case-text"><strong>ترجمه هوشمند:</strong> ترجمه با حفظ لحن، اصطلاحات و بافت فرهنگی، بومی‌سازی محتوا برای بازارهای مختلف</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📄</span><span class="use-case-text"><strong>خلاصه‌سازی:</strong> کتاب، مقاله علمی، گزارش کاری، جلسه، گفتگو — تبدیل متن ۲۰ صفحه‌ای به ۳ پاراگراف</span></div>
+        <div class="use-case-card"><span class="use-case-icon">✉️</span><span class="use-case-text"><strong>نامه‌نگاری:</strong> ایمیل رسمی، نامه اداری، درخواست وام، عذرخواهی از مشتری، استعفا، پیشنهاد همکاری</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🔍</span><span class="use-case-text"><strong>تحلیل و نقد:</strong> کتاب، فیلم، موقعیت کسب‌وکار، تصمیم استراتژیک، رقیب، بازار</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۷ اصل طلایی                               -->
+    <!-- ============================================ -->
+    <h3>🧠 ۷ اصل طلایی پرامپت نویسی متنی</h3>
+    <p style="text-align: justify;">این ۷ اصل، حاصل پژوهش‌های علمی و تجربیات عملی در حوزه مهندسی پرامپت هستند. آنها را نه به عنوان نکات حفظ‌کردنی، بلکه به عنوان یک <strong>چک‌لیست ذهنی</strong> قبل از نوشتن هر پرامپت در نظر بگیرید. تحقیقات نشان می‌دهد که رعایت این اصول می‌تواند کیفیت خروجی را تا <strong>۷۰٪</strong> بهبود بخشد.</p>
+
+    <h3>اصل اول: شفافیت (Clarity) ⭐</h3>
+    <p style="text-align: justify;"><strong>مهم‌ترین اصل در پرامپت نویسی.</strong> پرامپت شما باید آنقدر شفاف باشد که AI حتی یک درصد هم دچار ابهام نشود. «یک متن خوب بنویس» یک پرامپت فاجعه‌بار است. «یک نامه اداری محترمانه برای درخواست مرخصی ۳ روزه از مدیر منابع انسانی بنویس» یک پرامپت شفاف است. شفافیت یعنی AI دقیقاً بداند چه می‌خواهید، در چه قالبی، با چه لحنی و برای چه مخاطبی.</p>
+    <div class="prompt-box bad"><span class="label">❌ ضعیف</span>«یه چیزی در مورد بازاریابی بنویس.»</div>
+    <div class="prompt-box good"><span class="label">✅ شفاف</span>«یک مقاله ۵۰۰ کلمه‌ای درباره «استراتژی‌های بازاریابی محتوایی برای کسب‌وکارهای کوچک در سال ۲۰۲۵» بنویس. لحن: آموزشی و کاربردی. ساختار: مقدمه، ۳ استراتژی اصلی با مثال، نتیجه‌گیری.»</div>
+
+    <h3>اصل دوم: کامل بودن (Completeness)</h3>
+    <p style="text-align: justify;">تمام اطلاعات لازم را در پرامپت بگنجانید. هر چیزی را که نگویید، AI <strong>حدس می‌زند</strong> — و حدس‌های او در ۸۰٪ موارد اشتباه است. اطلاعات ناقص = پاسخ ناقص. قبل از ارسال پرامپت، از خود بپرسید: «اگر من جای AI بودم، با این اطلاعات می‌توانستم کار را درست انجام دهم؟»</p>
+    <div class="prompt-box bad"><span class="label">❌ ناقص</span>«برام یه ایمیل بنویس.»</div>
+    <div class="prompt-box good"><span class="label">✅ کامل</span>«یه ایمیل به مشتری بنویس که سفارشش ۳ روز تأخیر داره. دلیل: مشکل در تأمین مواد اولیه. لحن: عذرخواهانه ولی حرفه‌ای. پیشنهاد: ۱۵٪ تخفیف برای خرید بعدی. طول: حداکثر ۱۰۰ کلمه. خروجی: ایمیل آماده ارسال با موضوع (Subject) و متن.»</div>
+
+    <h3>اصل سوم: زمینه (Context)</h3>
+    <p style="text-align: justify;">بگویید <strong>چه کسی</strong> هستید، در <strong>چه موقعیتی</strong> قرار دارید، <strong>پیشینه</strong> موضوع چیست و <strong>چه محدودیت‌هایی</strong> دارید. زمینه مانند GPS برای AI است — بدون آن، AI در فضای بی‌نهایت احتمالات گم می‌شود. یک پژوهش دانشگاهی در MIT نشان داد که افزودن Context به پرامپت، دقت پاسخ را تا ۴۵٪ افزایش می‌دهد.</p>
+    <div class="prompt-box bad"><span class="label">❌ بدون زمینه</span>«چطور می‌تونم بیشتر پول دربیارم؟»</div>
+    <div class="prompt-box good"><span class="label">✅ با زمینه</span>«من یک طراح گرافیک ۲۸ ساله هستم، ۴ سال سابقه کار دارم، ماهی ۱۵ میلیون درآمد دارم، در تهران زندگی می‌کنم و می‌خواهم درآمدم را ۵۰٪ افزایش دهم. چه مسیرهایی پیشنهاد می‌کنی؟»</div>
+
+    <h3>اصل چهارم: هدفمندی (Purpose)</h3>
+    <p style="text-align: justify;">فقط نگویید «چه چیزی» می‌خواهید — بگویید <strong>«چرا»</strong> آن را می‌خواهید. هدف نهایی شما چیست؟ «هدف من از این متن افزایش فروش است، نه اطلاع‌رسانی.» این جمله به AI می‌گوید که لحن، ساختار و محتوای متن باید در خدمت چه هدفی باشد. هدفمندی، قطبنمای پرامپت شماست.</p>
+
+    <h3>اصل پنجم: قالب مشخص (Format)</h3>
+    <p style="text-align: justify;">خروجی را در چه <strong>شکلی</strong> می‌خواهید؟ پاراگراف منسجم؟ جدول؟ بولت پوینت؟ کد HTML؟ ایمیل آماده ارسال؟ پست وبلاگ؟ اسکریپت ویدئو؟ <strong>قالب را مشخص کنید</strong> تا خروجی مستقیماً قابل استفاده باشد. هیچ چیز آزاردهنده‌تر از دریافت یک پاسخ خوب در قالب اشتباه نیست.</p>
+
+    <h3>اصل ششم: لحن (Tone)</h3>
+    <p style="text-align: justify;">لحن مناسب را از میان این گزینه‌ها انتخاب کنید: <strong>رسمی و اداری، صمیمی و خودمانی، طنزآمیز و شوخ، آکادمیک و علمی، کودکانه و ساده، انگیزشی و پرشور، خبری و بی‌طرف، احساسی و شاعرانه.</strong> یک متن با محتوای عالی اما لحن اشتباه می‌تواند کاملاً بی‌اثر یا حتی نتیجه معکوس داشته باشد.</p>
+
+    <h3>اصل هفتم: محدودیت‌ها (Constraints)</h3>
+    <p style="text-align: justify;">مرزها را مشخص کنید: «حداکثر ۲۰۰ کلمه»، «فقط از منابع علمی معتبر»، «بدون استفاده از اصطلاحات تخصصی»، «مناسب برای مخاطب ۱۲ ساله»، «در قالب ۳ پاراگراف»، «فقط از کتابخانه‌های استاندارد پایتون». <strong>خلاقیت در محدودیت شکوفا می‌شود.</strong></p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۸ تکنیک پیشرفته                            -->
+    <!-- ============================================ -->
+    <h3>📋 ۸ تکنیک پیشرفته پرامپت نویسی متنی</h3>
+    <p style="text-align: justify;">این تکنیک‌ها فراتر از اصول پایه هستند. آنها را در پرامپت‌های خود ترکیب کنید تا به نتایج شگفت‌انگیزی برسید:</p>
+
+    <h3>تکنیک ۱: نقش دادن (Persona Pattern) 🎭</h3>
+    <p style="text-align: justify;">به AI یک <strong>نقش یا شخصیت تخصصی</strong> بدهید. این تکنیک به‌تنهایی کیفیت پاسخ را ۳ تا ۵ برابر می‌کند. وقتی می‌گویید «تو یک وکیل باتجربه هستی»، AI از واژگان، ساختار استدلال و عمق تحلیل یک وکیل استفاده می‌کند — نه یک کاربر عادی. نقش‌های قدرتمند: وکیل، روانشناس، مشاور مالی، استاد دانشگاه، منتقد هنری، استراتژیست بازاریابی، مهندس نرم‌افزار ارشد، پزشک متخصص.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال ۱</span>«تو یک <strong>روانشناس کودک با ۲۰ سال تجربه</strong> هستی. پسرم ۷ ساله است و موقع انجام تکالیف پرخاش می‌کند. راهکارهای عملی و قدم‌به‌قدم بده. لحنت گرم و اطمینان‌بخش باشد.»</div>
+    <div class="prompt-box good"><span class="label">✅ مثال ۲</span>«تو یک <strong>وکیل متخصص دعاوی خانوادگی</strong> با ۱۵ سال سابقه هستی. می‌خواهم بدانم در صورت طلاق توافقی، چه مدارکی لازم است و روند کار چقدر طول می‌کشد. به زبان ساده توضیح بده — نه زبان حقوقی پیچیده.»</div>
+
+    <h3>تکنیک ۲: درخواست چند نسخه (Multiple Versions) 📚</h3>
+    <p style="text-align: justify;">از AI بخواهید <strong>چند نسخه متفاوت</strong> از پاسخ را با لحن‌ها، سبک‌ها یا طول‌های مختلف ارائه دهد. این تکنیک به شما <strong>حق انتخاب</strong> می‌دهد و معمولاً یکی از نسخه‌ها دقیقاً همان چیزی است که می‌خواهید. می‌توانید از بین آنها انتخاب کنید یا حتی ترکیبی از چند نسخه را استفاده کنید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«برای این کپشن اینستاگرام <strong>۴ نسخه</strong> بنویس: یکی رسمی، یکی طنز، یکی احساسی، یکی کوتاه و مینیمال (زیر ۵۰ کلمه). من بهترین را انتخاب می‌کنم.»</div>
+
+    <h3>تکنیک ۳: محدود کردن و چارچوب دادن (Constraining) 🔒</h3>
+    <p style="text-align: justify;">AI در فضای باز و بی‌مرز <strong>گیج می‌شود</strong> و پاسخ‌های پراکنده می‌دهد. اما در یک فضای محدود و مشخص، <strong>عالی</strong> عمل می‌کند. این یک اصل روانشناختی است: خلاقیت در محدودیت شکوفا می‌شود. محدودیت‌ها می‌توانند شامل: تعداد کلمات، تعداد ایده‌ها، نوع منابع، سطح دشواری، مخاطب هدف، بودجه، زمان و... باشند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«یه ایمیل رسمی برای درخواست همکاری بنویس. <strong>محدودیت‌ها:</strong> حداکثر ۱۵۰ کلمه، لحن محترمانه ولی نه چاپلوسانه، شامل ۳ دلیل برای همکاری، با یه پیشنهاد مشخص (جلسه ۱۵ دقیقه‌ای)، پایان با تشکر.»</div>
+
+    <h3>تکنیک ۴: درخواست ساختار خاص (Structured Output) 📊</h3>
+    <p style="text-align: justify;">به جای «در مورد X توضیح بده»، بگویید «X را در قالب <strong>جدول، بولت پوینت، پرسش و پاسخ، فلش‌کارت، نقشه ذهنی، یا کد</strong> ارائه بده». این کار خروجی را مستقیماً قابل استفاده می‌کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«مزایا و معایب مهاجرت به آلمان را در یک <strong>جدول ۴ ستونه</strong> بنویس: معیار، مزیت، عیب، توضیح کوتاه. سپس یک پاراگراف ۵۰ کلمه‌ای جمع‌بندی کن.»</div>
+
+    <h3>تکنیک ۵: تعیین سطح مخاطب (Audience Level) 👥</h3>
+    <p style="text-align: justify;">توضیح یک مفهوم برای <strong>کودک ۸ ساله</strong> با توضیح همان مفهوم برای <strong>مدیر اجرایی</strong> یا <strong>استاد دانشگاه</strong> کاملاً متفاوت است. این تکنیک باعث می‌شود AI زبان، مثال‌ها و عمق مطلب را متناسب با مخاطب تنظیم کند. حتی می‌توانید از AI بخواهید یک مفهوم را برای <strong>سه سطح مختلف</strong> توضیح دهد.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«مفهوم «هوش مصنوعی» را برای <strong>سه سطح</strong> توضیح بده: ۱) کودک ۸ ساله (با داستان)، ۲) دانشجوی لیسانس (با مثال‌های فنی)، ۳) مدیر اجرایی (با مثال‌های تجاری).»</div>
+
+    <h3>تکنیک ۶: زنجیره فکری (Chain of Thought) 🔗</h3>
+    <p style="text-align: justify;">برای مسائل پیچیده، از AI بخواهید <strong>قدم‌به‌قدم فکر کند</strong> و مسیر استدلال خود را نشان دهد. پژوهش‌های Google و OpenAI نشان داده‌اند که این تکنیک خطا را <strong>تا ۶۰٪ کاهش می‌دهد.</strong> جمله جادویی: «Let's think step by step» یا «قدم‌به‌قدم تحلیل کن».</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«بین خرید خانه در تهران یا اجاره و سرمایه‌گذاری در بورس، کدام بهتر است؟ <strong>قدم‌به‌قدم</strong> تحلیل کن: بازار مسکن، بازار بورس، مالیات، هزینه‌های جانبی، با بودجه ۳ میلیارد. در نهایت جدول مقایسه‌ای بده.»</div>
+
+    <h3>تکنیک ۷: نمونه دادن (Few-Shot Prompting) 📝</h3>
+    <p style="text-align: justify;">قبل از درخواست اصلی، <strong>۲-۳ نمونه</strong> از آنچه می‌خواهید به AI نشان دهید. این تکنیک که در پژوهش‌های OpenAI به نام Few-Shot Learning شناخته می‌شود، به AI کمک می‌کند الگوی مورد نظر شما را دقیق‌تر درک کند. نمونه‌ها می‌توانند فرمت، لحن، طول یا سبک مورد نظر شما را نشان دهند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال Few-Shot</span>«می‌خواهم عناوین جذاب برای مقاله بنویسی. این دو نمونه از سبک مورد نظر من است:<br>نمونه ۱: «چگونه در ۳۰ روز، ۱۰۰۰ فالوور واقعی جذب کردم (بدون هیچ هزینه‌ای)»<br>نمونه ۲: «۵ اشتباه مرگبار در مذاکره که حتی حرفه‌ای‌ها هم مرتکب می‌شوند»<br>حالا ۱۰ عنوان مشابه برای مقاله درباره «مدیریت زمان» بنویس.»</div>
+
+    <h3>تکنیک ۸: درخواست نقد و بازبینی (Self-Critique) 🔍</h3>
+    <p style="text-align: justify;">از AI بخواهید <strong>پاسخ خودش را نقد کند</strong> یا چند نسخه ارائه دهد و خودش بهترین را انتخاب کند. این تکنیک باعث می‌شود AI عمیق‌تر فکر کند و پاسخ‌های باکیفیت‌تری ارائه دهد. همچنین می‌توانید از AI بخواهید نقاط ضعف پاسخ خودش را بگوید و سپس آن را بهبود دهد.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال Self-Critique</span>«یک ایمیل فروش برای محصول جدیدمان بنویس. سپس <strong>خودت آن را نقد کن</strong> و ۳ نقطه ضعفش را بگو. در نهایت، بر اساس نقد خودت، <strong>نسخه بهبودیافته</strong> را بنویس.»</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ابزارها                                   -->
+    <!-- ============================================ -->
+    <h3>🛠️ ابزارهای پیشنهادی برای پرامپت نویسی متنی</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.82rem; min-width: 600px;">
+            <thead><tr><th style="padding: 10px 8px;">ابزار</th><th style="padding: 10px 8px;">قیمت</th><th style="padding: 10px 8px;">نقاط قوت</th><th style="padding: 10px 8px;">بهترین کاربرد</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px;"><strong>ChatGPT</strong></td><td style="padding: 8px;">رایگان / Plus</td><td style="padding: 8px;">همه‌کاره، پرکاربردترین</td><td style="padding: 8px;">بهترین نقطه شروع</td></tr>
+                <tr><td style="padding: 8px;"><strong>Claude</strong></td><td style="padding: 8px;">رایگان / Pro</td><td style="padding: 8px;">تحلیل متون بلند، لحن طبیعی</td><td style="padding: 8px;">خلاصه‌سازی، نامه‌نگاری</td></tr>
+                <tr><td style="padding: 8px;"><strong>Gemini</strong></td><td style="padding: 8px;">رایگان</td><td style="padding: 8px;">اتصال به اکوسیستم گوگل</td><td style="padding: 8px;">کارهای روزمره، ایمیل</td></tr>
+                <tr><td style="padding: 8px;"><strong>Copilot</strong></td><td style="padding: 8px;">رایگان</td><td style="padding: 8px;">یکپارچه با ویندوز و آفیس</td><td style="padding: 8px;">کارهای اداری، ورد</td></tr>
+                <tr><td style="padding: 8px;"><strong>DeepSeek</strong></td><td style="padding: 8px;">رایگان</td><td style="padding: 8px;">چت‌بات قدرتمند و رایگان</td><td style="padding: 8px;">جایگزین رایگان ChatGPT</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   اشتباهات رایج                              -->
+    <!-- ============================================ -->
+    <h3>🚫 اشتباهات رایج مبتدیان در پرامپت نویسی</h3>
+    <p style="text-align: justify;">این اشتباهات را بشناسید تا مرتکب نشوید:</p>
+    <ol>
+        <li style="text-align: justify;"><strong>پرامپت‌های خیلی کوتاه:</strong> «در مورد X توضیح بده» — هیچ زمینه، هدف یا محدودیتی ندارد.</li>
+        <li style="text-align: justify;"><strong>پرامپت‌های خیلی بلند و شلخته:</strong> اطلاعات پراکنده بدون ساختار — AI گیج می‌شود.</li>
+        <li style="text-align: justify;"><strong>نگفتن لحن:</strong> یک پاسخ با لحن اشتباه می‌تواند کاملاً بی‌فایده باشد.</li>
+        <li style="text-align: justify;"><strong>تسلیم شدن بعد از اولین پاسخ:</strong> پرامپت نویسی یک <strong>مکالمه</strong> است — پاسخ اول را بگیرید، اصلاح کنید و ادامه دهید.</li>
+        <li style="text-align: justify;"><strong>استفاده از زبان مبهم و کلی:</strong> «یه چیز خوب»، «یه متن قشنگ»، «یه برنامه عالی» — AI ذهن‌خوان نیست.</li>
+        <li style="text-align: justify;"><strong>اعتماد کامل به خروجی:</strong> همیشه خروجی AI را راستی‌آزمایی کنید — به‌ویژه در موضوعات تخصصی.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   عیب‌یابی                                   -->
+    <!-- ============================================ -->
+    <h3>🔧 عیب‌یابی — وقتی خروجی خوب نیست، چه کار کنیم؟</h3>
+    <table class="styled-table" style="font-size: 0.85rem;">
+        <thead><tr><th style="padding: 10px 8px;">مشکل</th><th style="padding: 10px 8px;">علت احتمالی</th><th style="padding: 10px 8px;">راه‌حل</th></tr></thead>
+        <tbody>
+            <tr><td style="padding: 8px;">پاسخ خیلی کلی است</td><td style="padding: 8px;">پرامپت مبهم یا بدون زمینه</td><td style="padding: 8px;">جزئیات، زمینه و محدودیت اضافه کنید</td></tr>
+            <tr><td style="padding: 8px;">پاسخ خیلی طولانی است</td><td style="padding: 8px;">محدودیت تعداد کلمات را نگفتید</td><td style="padding: 8px;">بگویید «حداکثر X کلمه»</td></tr>
+            <tr><td style="padding: 8px;">لحن پاسخ نامناسب است</td><td style="padding: 8px;">لحن را مشخص نکردید</td><td style="padding: 8px;">صریحاً لحن مورد نظر را بگویید</td></tr>
+            <tr><td style="padding: 8px;">پاسخ اشتباه یا بی‌ربط است</td><td style="padding: 8px;">پرامپت گنگ یا متناقض</td><td style="padding: 8px;">پرامپت را بازنویسی کنید، شفاف‌تر</td></tr>
+            <tr><td style="padding: 8px;">AI اطلاعات را تکرار می‌کند</td><td style="padding: 8px;">گفتگو خیلی طولانی شده</td><td style="padding: 8px;">گفتگوی جدید (New Chat) شروع کنید</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   چک‌لیست                                    -->
+    <!-- ============================================ -->
+    <h3>✅ چک‌لیست نهایی — قبل از ارسال پرامپت</h3>
+    <p style="text-align: justify;">قبل از اینکه دکمه Enter را بزنید، این ۱۰ سوال را از خود بپرسید:</p>
+    <ol>
+        <li style="text-align: justify;">آیا <strong>دقیقاً</strong> گفتم چه می‌خواهم؟ (شفافیت)</li>
+        <li style="text-align: justify;">آیا <strong>تمام</strong> اطلاعات لازم را داده‌ام؟ (کامل بودن)</li>
+        <li style="text-align: justify;">آیا <strong>زمینه</strong> (کی هستم، چه موقعیتی) را توضیح داده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>هدف</strong> نهایی را گفته‌ام؟ (نه فقط خواسته، چرایی آن)</li>
+        <li style="text-align: justify;">آیا <strong>قالب</strong> خروجی را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>لحن</strong> مناسب را انتخاب کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>محدودیت‌ها</strong> (تعداد کلمات، مخاطب، منابع) را گفته‌ام؟</li>
+        <li style="text-align: justify;">آیا از <strong>تکنیک‌های پیشرفته</strong> (نقش دادن، زنجیره فکری، نمونه دادن) استفاده کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا پرامپت را یک بار <strong>بلند خوانده‌ام</strong> تا از واضح بودنش مطمئن شوم؟</li>
+        <li style="text-align: justify;">آیا آماده‌ام که اگر پاسخ اول خوب نبود، <strong>گفتگو را ادامه دهم</strong> و اصلاح کنم؟</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   پرامپت طلایی                              -->
+    <!-- ============================================ -->
+    <h3>🌟 پرامپت طلایی — نمونه نهایی</h3>
+    <p style="text-align: justify;">این پرامپت تمام ۷ اصل و ۵ تکنیک (Persona، Constraining، Structured Output، Context، Tone) را یکجا دارد:</p>
+    <div class="prompt-box good"><span class="label">🏆 پرامپت طلایی</span>«تو یک <strong>استراتژیست محتوا با ۱۵ سال سابقه</strong> هستی (Persona). من یک <strong>فروشگاه آنلاین لوازم خانگی</strong> دارم (Context). می‌خواهم <strong>برای عید نوروز</strong> یک کمپین محتوایی در اینستاگرام راه‌اندازی کنم (Clarity).<br><br><strong>مخاطب هدف:</strong> زنان ۲۵-۴۵ سال، طبقه متوسط<br><strong>هدف:</strong> افزایش فروش ۲۰٪ (Purpose)<br><strong>محدودیت:</strong> بودجه ۵ میلیون، تیم ۲ نفره (Constraints)<br><br><strong>از تو می‌خواهم (Format):</strong><br>۱. ۱۰ ایده پست و استوری با تم نوروزی<br>۲. تقویم محتوایی ۱۴ روزه<br>۳. ۳ کپشن آماده با لحن <strong>صمیمی و نوروزی</strong> (Tone)<br>۴. خروجی به صورت <strong>جدول</strong> (Structured Output)<br>۵. تخمین بازخورد برای هر ایده»</div>
+
+    <div class="end-section">🏁 پایان فصل اول — حالا می‌توانید پرامپت‌های متنی حرفه‌ای بنویسید</div>
+
+    <!-- ==================== آزمون ==================== -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون فصل اول</div>
+        <div class="quiz-subtitle">۱۵ سوال چهارگزینه‌ای — پاسخ‌ها تصادفی توزیع شده‌اند</div>
+        <div id="quizChapter1"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'اولین و مهم‌ترین اصل در پرامپت نویسی متنی چیست؟', o: ['کامل بودن', 'هدفمندی', 'شفافیت (Clarity)', 'تعیین لحن'], c: 2 },
+            { q: 'اگر در پرامپت اطلاعات لازم را ندهیم، AI چه می‌کند؟', o: ['حدس می‌زند و معمولاً اشتباه است', 'سوال می‌پرسد', 'پاسخ نمی‌دهد', 'از اینترنت پیدا می‌کند'], c: 0 },
+            { q: 'تکنیک Persona Pattern به چه معناست؟', o: ['نوشتن اول شخص', 'دادن نقش تخصصی به AI', 'تکرار کلمات', 'انگلیسی نوشتن'], c: 1 },
+            { q: 'چرا باید Context را در پرامپت بگوییم؟', o: ['برای حجم', 'تا پاسخ شخصی‌سازی شود', 'برای سئو', 'برای زیبایی'], c: 1 },
+            { q: 'تکنیک Few-Shot Prompting یعنی چه؟', o: ['هیچ', 'نشان دادن ۲-۳ نمونه قبل از درخواست', 'حجم را زیاد می‌کند', 'سرعت را کم می‌کند'], c: 1 },
+            { q: 'کدام ابزار برای تحلیل متون بلند معروف است؟', o: ['Claude', 'Midjourney', 'Photoshop', 'CapCut'], c: 0 },
+            { q: 'DeepSeek چیست؟', o: ['ابزار تصویر', 'چت‌بات رایگان', 'ویرایشگر ویدئو', 'ابزار اکسل'], c: 1 },
+            { q: 'تکنیک Self-Critique یعنی چه؟', o: ['AI خودش را نقد کند', 'ما AI را نقد کنیم', 'نقد نکنیم', 'فقط تعریف کنیم'], c: 0 },
+            { q: 'Chain of Thought خطا را چقدر کاهش می‌دهد؟', o: ['۱۰٪', 'تا ۶۰٪', '۹۰٪', '۰٪'], c: 1 },
+            { q: 'رایج‌ترین اشتباه مبتدیان چیست؟', o: ['پرامپت بلند', 'پرامپت خیلی کوتاه و مبهم', 'انگلیسی نوشتن', 'استفاده از جدول'], c: 1 },
+            { q: 'اگر لحن را مشخص نکنیم چه می‌شود؟', o: ['AI خودش انتخاب می‌کند', 'پاسخ نمی‌دهد', 'خطا می‌دهد', 'فقط انگلیسی'], c: 0 },
+            { q: 'ChatGPT رایگان است؟', o: ['خیر', 'با دعوتنامه', 'بله نسخه پایه', 'فقط ایران'], c: 2 },
+            { q: 'کدام جزو ۷ اصل طلایی نیست؟', o: ['شفافیت', 'کامل بودن', 'سرعت نوشتن', 'هدفمندی'], c: 2 },
+            { q: 'برای ایمیل عذرخواهی مهم‌ترین اصل چیست؟', o: ['شفافیت و صداقت', 'طنز', 'طولانی', 'انگلیسی'], c: 0 },
+            { q: 'بهترین راه تمرین پرامپت نویسی چیست؟', o: ['خواندن', 'تمرین عملی', 'حفظ کردن', 'فیلم دیدن'], c: 1 }
+        ];
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizChapter1');
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون فصل اول</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qc1Select(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qc1Next()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+        window.qc1Select = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qc1Next = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! فصل اول را کامل آموختی.' : p >= 70 ? 'خوب است! آماده فصل دوم.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qc1Restart()">🔄 شروع دوباره</button></div>';
+        }
+        window.qc1Restart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        <article class="page-card content-section" id="chapter1">
+            <!-- محتوای فصل اول اینجا قرار می‌گیرد -->
+        </article>
+<!-- ==================== فصل دوم ==================== -->
+<!-- این کد را دقیقاً به جای خطوط مربوط به فصل دوم در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="chapter2" style="text-align: justify;">
+    <div class="breadcrumb">🎨 فصل دوم</div>
+    <div class="section-title"><span class="icon">🖼️</span> پرامپت نویسی برای تولید تصویر</div>
+
+    <p style="text-align: justify; direction: rtl;">تولید تصویر با هوش مصنوعی یکی از هیجان‌انگیزترین و خلاقانه‌ترین کاربردهای AI مولد است. با یک پرامپت خوب می‌توانید تصاویری خلق کنید که تا چند سال پیش تنها با صرف ساعت‌ها وقت، تجهیزات گران‌قیمت و مهارت‌های پیشرفته ممکن بود. از یک لوگوی ساده تا یک اثر هنری پیچیده، از یک استوری اینستاگرام تا یک جلد کتاب — همه با <strong>پرامپت نویسی تصویری</strong> قابل انجام است.</p>
+
+    <div class="info-box" style="text-align: justify; direction: rtl;"><span class="label">⚠️ نکته بسیار مهم</span>پرامپت‌های تصویری تقریباً همیشه باید به <strong>زبان انگلیسی</strong> نوشته شوند. دلیلش این است که مدل‌های تصویرسازی مانند Midjourney، DALL-E، Leonardo.ai و Stable Diffusion روی داده‌های عظیم انگلیسی زبان آموزش دیده‌اند و توصیفات انگلیسی را بسیار دقیق‌تر از هر زبان دیگری درک می‌کنند. اگر انگلیسی شما قوی نیست، نگران نباشید — می‌توانید پرامپت فارسی را ابتدا با ChatGPT یا DeepSeek به انگلیسی ترجمه کنید، سپس ویرایش و استفاده نمایید.</div>
+
+    <!-- ============================================ -->
+    <!--   USE CASES                                 -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">📍 با پرامپت نویسی تصویری چه کارهایی می‌توانیم انجام دهیم؟</h3>
+    <p style="text-align: justify; direction: rtl;">قبل از ورود به تکنیک‌ها، ببینیم این مهارت در چه موقعیت‌های واقعی به کار می‌آید:</p>
+
+    <div class="use-case-grid">
+        <div class="use-case-card"><span class="use-case-icon">🏷️</span><span class="use-case-text"><strong>طراحی لوگو و هویت بصری:</strong> لوگوی مینیمال، آیکون اپلیکیشن، مونوگرام، نشان تجاری برای استارتاپ</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📲</span><span class="use-case-text"><strong>محتوای اینستاگرام:</strong> پست، استوری، ریلز کاور، هایلایت کاور، کاور IGTV</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📢</span><span class="use-case-text"><strong>طراحی تبلیغاتی:</strong> پوستر رویداد، بنر وبسایت، Billboard، تراکت، کاتالوگ</span></div>
+        <div class="use-case-card"><span class="use-case-icon">💳</span><span class="use-case-text"><strong>اقلام چاپی:</strong> کارت ویزیت، سربرگ، پاکت نامه، بروشور، منو رستوران</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📊</span><span class="use-case-text"><strong>اینفوگرافیک و نمودار:</strong> نمایش بصری داده‌ها، Timeline، فلوچارت، نقشه ذهنی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🧑‍🎨</span><span class="use-case-text"><strong>کاراکتر و مسکات:</strong> شخصیت برند، کاراکتر بازی، Avatar پروفایل، شخصیت کتاب کودک</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📚</span><span class="use-case-text"><strong>کاور و جلد:</strong> جلد کتاب، کاور آلبوم موسیقی، کاور پادکست، Thumbnail یوتیوب</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🔄</span><span class="use-case-text"><strong>ویرایش و اصلاح:</strong> تغییر استایل عکس، حذف عناصر ناخواسته، ارتقاء کیفیت، تغییر پس‌زمینه</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🏠</span><span class="use-case-text"><strong>طراحی داخلی و معماری:</strong> ایده‌پردازی دکوراسیون، نمای ساختمان، طراحی فضای داخلی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">👗</span><span class="use-case-text"><strong>طراحی مد و فشن:</strong> طراحی لباس، اکسسوری، کفش، جواهرات، استایلینگ</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   فرمول طلایی ۵ عنصری                        -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">🧠 فرمول طلایی پرامپت تصویری (۵ عنصر اصلی)</h3>
+    <p style="text-align: justify; direction: rtl;">هر پرامپت تصویری حرفه‌ای باید این <strong>۵ عنصر</strong> را داشته باشد. این فرمول را مانند یک دستور آشپزی دقیق در نظر بگیرید — اگر یکی از مواد اصلی را جا بیندازید، نتیجه نهایی مطلوب نخواهد بود:</p>
+
+    <h3 style="text-align: justify; direction: rtl;">عنصر ۱: سوژه (Subject) 🎯</h3>
+    <p style="text-align: justify; direction: rtl;"><strong>چه چیزی</strong> در تصویر باشد؟ سوژه را با <strong>جزئیات دقیق</strong> توصیف کنید. نه فقط «گربه»، بلکه «یک گربه پرشین سفید با چشمان آبی درشت، موهای بلند و ابریشمی، نشسته روی یک بالش مخملی». نه فقط «ماشین»، بلکه «یک Porsche 911 کلاسیک مدل ۱۹۷۳ به رنگ نقره‌ای متالیک، پارک شده در یک گاراژ قدیمی با نور ملایم». هرچه جزئیات سوژه بیشتر باشد، خروجی دقیق‌تر خواهد بود.</p>
+
+    <h3 style="text-align: justify; direction: rtl;">عنصر ۲: سبک هنری (Style) 🎨</h3>
+    <p style="text-align: justify; direction: rtl;">تصویر در چه <strong>سبکی</strong> باشد؟ دنیای سبک‌های هنری بی‌نهایت است. مهم‌ترین آنها عبارتند از: <strong>رئال (Photorealistic)</strong> برای تصاویر واقع‌گرایانه، <strong>آبرنگی (Watercolor)</strong> برای حس لطیف و هنری، <strong>رنگ‌روغن (Oil Painting)</strong> برای حس کلاسیک و ماندگار، <strong>مینیمال و وکتور (Minimalist Vector)</strong> برای لوگو و آیکون (بهترین انتخاب برای طراحی لوگو)، <strong>سایبرپانک (Cyberpunk)</strong> برای فضاهای آینده‌گرا با نورهای نئون، <strong>انیمه (Anime)</strong> برای سبک انیمیشن ژاپنی، <strong>سه‌بعدی ایزومتریک (3D Isometric)</strong> برای تصاویر فنی و توضیحی، <strong>وینتیج (Vintage)</strong> برای حس نوستالژیک و قدیمی. همچنین می‌توانید از نام <strong>هنرمندان مشهور</strong> استفاده کنید: Van Gogh، Picasso، Monet، Dali، Rembrandt — یا نام <strong>استودیوهای انیمیشن</strong>: Studio Ghibli (برای تصاویر رؤیایی و فانتزی)، Pixar، Disney.</p>
+
+    <h3 style="text-align: justify; direction: rtl;">عنصر ۳: فضا و محیط (Setting) 🏞️</h3>
+    <p style="text-align: justify; direction: rtl;">صحنه <strong>کجا</strong> اتفاق می‌افتد؟ در یک جنگل مه‌آلود در سپیده‌دم؟ در یک دفتر کار مدرن با پنجره‌های سرتاسری؟ در یک کوچه سنگ‌فرش شده در تهران قدیم؟ در فضا، روی یک سیاره ناشناخته؟ محیط، <strong>حال و هوای</strong> تصویر را تعیین می‌کند و به آن عمق می‌بخشد.</p>
+
+    <h3 style="text-align: justify; direction: rtl;">عنصر ۴: نورپردازی و رنگ (Lighting & Color) 💡</h3>
+    <p style="text-align: justify; direction: rtl;">نور <strong>چگونه</strong> باشد و پالت رنگی <strong>چه باشد</strong>؟ نورپردازی مهم‌ترین عاملی است که حس یک تصویر را شکل می‌دهد. اصطلاحات کلیدی نورپردازی: <strong>Golden Hour</strong> (نور طلایی و گرم یک ساعت قبل از غروب — ایده‌آل برای پرتره و منظره)، <strong>Cinematic Lighting</strong> (نورپردازی سینمایی — حرفه‌ای و دراماتیک)، <strong>Neon Lighting</strong> (نورهای نئون رنگارنگ — مناسب سایبرپانک)، <strong>Soft Diffused Light</strong> (نور ملایم و پراکنده — مناسب پرتره)، <strong>Studio Lighting</strong> (نور استودیویی — تمیز و حرفه‌ای). برای رنگ نیز: <strong>Pastel Palette</strong> (رنگ‌های پاستلی ملایم)، <strong>Jewel Tones</strong> (رنگ‌های غنی جواهرگونه)، <strong>Monochrome</strong> (تک‌رنگ)، <strong>High Contrast</strong> (تضاد شدید).</p>
+
+    <h3 style="text-align: justify; direction: rtl;">عنصر ۵: جزئیات فنی (Technical Details) ⚙️</h3>
+    <p style="text-align: justify; direction: rtl;"><strong>کیفیت، زاویه دوربین، عمق میدان و نسبت ابعاد</strong> را مشخص کنید. کیفیت: 4K، 8K، Ultra HD، High Resolution. زاویه دوربین: Close-up (نمای نزدیک — برای پرتره)، Wide Shot (نمای باز — برای منظره)، Aerial View (نمای هوایی — از بالا)، Dutch Angle (زاویه هلندی — برای حس ناآرامی)، Macro Shot (نمای ماکرو — برای جزئیات ریز). عمق میدان: Shallow Depth of Field (پس‌زمینه تار — برای برجسته کردن سوژه). نسبت ابعاد (Aspect Ratio): <strong>1:1</strong> برای پست مربع اینستاگرام، <strong>4:5</strong> برای پست پرتره اینستاگرام، <strong>9:16</strong> برای استوری و ریلز، <strong>16:9</strong> برای یوتیوب و ویدئو، <strong>3:1</strong> برای بنر افقی.</p>
+
+    <div class="prompt-box bad"><span class="label">❌ پرامپت ضعیف (فاقد ۵ عنصر)</span><span style="direction: ltr; text-align: left; display: block;">Draw a cat.</span></div>
+    <div class="prompt-box good"><span class="label">✅ پرامپت حرفه‌ای (دارای ۵ عنصر)</span><span style="direction: ltr; text-align: left; display: block;">A majestic white Persian cat with deep blue eyes and long silky fur (Subject), oil painting style in the manner of Rembrandt with visible brush strokes (Style), sitting on a velvet burgundy armchair in a dimly lit vintage library (Setting), warm golden hour light streaming from a nearby window with rich jewel tones (Lighting & Color), 8K resolution, close-up shot, shallow depth of field, masterpiece quality (Technical)</span></div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۶ تکنیک پیشرفته                             -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">📋 ۶ تکنیک پیشرفته پرامپت تصویری</h3>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۱: ارجاع به هنرمندان و سبک‌ها 🎨</h3>
+    <p style="text-align: justify; direction: rtl;">نام <strong>هنرمندان مشهور، جنبش‌های هنری و استودیوهای انیمیشن</strong> را در پرامپت بیاورید. AI این ارجاعات را فوق‌العاده خوب می‌فهمد و خروجی‌های شگفت‌انگیزی تولید می‌کند. می‌توانید چند هنرمند را همزمان ترکیب کنید. هنرمندان پیشنهادی: Van Gogh (ضربات قلم‌موی پرپیچ‌وتاب)، Monet (امپرسیونیسم نرم)، Picasso (کوبیسم هندسی)، Dali (سوررئالیسم رؤیاگونه)، H.R. Giger (بیومکانیکال تاریک)، Hayao Miyazaki (انیمه ژاپنی شاعرانه).</p>
+    <div class="prompt-box good"><span class="label">✅ مثال ۱</span><span style="direction: ltr; text-align: left; display: block;">in the style of Studio Ghibli and Hayao Miyazaki, hand-drawn animation feel, watercolor and ink technique, a whimsical forest clearing with tiny glowing spirits and a small wooden cottage, soft diffused morning light, pastel color palette, --ar 16:9</span></div>
+    <div class="prompt-box good"><span class="label">✅ مثال ۲</span><span style="direction: ltr; text-align: left; display: block;">portrait of an old fisherman, in the style of Rembrandt, dramatic chiaroscuro lighting, dark background with warm highlights on the face, oil on canvas texture, 4K</span></div>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۲: زبان سینمایی و عکاسی 🎬</h3>
+    <p style="text-align: justify; direction: rtl;">از <strong>اصطلاحات سینمایی و عکاسی حرفه‌ای</strong> استفاده کنید. این واژگان به AI کمک می‌کنند نور، زاویه و حس تصویر را دقیق‌تر درک کند. اصطلاحات کلیدی: Cinematic Lighting (نورپردازی سینمایی)، Golden Hour (نور طلایی غروب)، Blue Hour (نور آبی گرگ و میش)، Volumetric Fog (مه حجمی — برای صحنه‌های مرموز)، Bokeh (پس‌زمینه محو هنری — برای پرتره)، Wide Angle (زاویه باز — برای منظره)، Macro Shot (نمای نزدیک از جزئیات ریز)، Aerial View (نمای هوایی)، Dutch Angle (زاویه کج — برای حس تنش و ناآرامی).</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span><span style="direction: ltr; text-align: left; display: block;">cinematic wide shot, golden hour lighting, volumetric fog rolling over a mountain valley at sunrise, warm orange and soft blue color grade, photographed on Arri Alexa 65, 8K, anamorphic lens flare, epic scale, National Geographic quality</span></div>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۳: ترکیب سبک‌های متضاد (Style Fusion) 🔀</h3>
+    <p style="text-align: justify; direction: rtl;">دو یا چند سبک به‌ظاهر <strong>متضاد</strong> را با هم ترکیب کنید تا به نتایج خلاقانه و منحصربه‌فرد برسید. این تکنیک برای خلق تصاویر هنری، مفهومی و متفاوت فوق‌العاده است. ترکیب‌های پیشنهادی: «معماری سنتی ایرانی + سبک سایبرپانک»، «طبیعت بکر + المان‌های استیمپانک»، «پرتره رنسانسی + گلیچ آرت دیجیتال»، «حیوانات وحشی + سبک آبرنگی لطیف»، «منظره شهری + سبک امپرسیونیسم».</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span><span style="direction: ltr; text-align: left; display: block;">a traditional Persian bazaar with arched ceilings and intricate mosaic tiles, but in cyberpunk style, holographic advertisements floating in the air, neon purple and cyan lights reflecting on wet cobblestone floor, rain, dense atmosphere, Blade Runner aesthetic, --ar 21:9</span></div>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۴: نسبت ابعاد و پارامترهای فنی ⚙️</h3>
+    <p style="text-align: justify; direction: rtl;">همیشه <strong>نسبت ابعاد (Aspect Ratio)</strong> را متناسب با پلتفرم مقصد مشخص کنید. در Midjourney از پارامتر <strong>--ar</strong> استفاده می‌شود. همچنین پارامترهای <strong>--quality</strong> (کیفیت)، <strong>--stylize</strong> (میزان خلاقیت هنری) و <strong>--style raw</strong> (برای تصاویر واقع‌گرایانه‌تر) را می‌توانید تنظیم کنید. برای DALL-E نیز می‌توانید نسبت ابعاد را در انتهای پرامپت ذکر کنید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span><span style="direction: ltr; text-align: left; display: block;">minimalist logo for a coffee shop named "Bidar", vector style, flat design, warm brown and cream color palette, negative space, white background, --ar 1:1 --style raw --stylize 150</span></div>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۵: پرامپت منفی (Negative Prompt) 🚫</h3>
+    <p style="text-align: justify; direction: rtl;">بگویید چه چیزهایی <strong>نباید</strong> در تصویر باشد. این تکنیک در Stable Diffusion، Leonardo.ai و Midjourney (با پارامتر <strong>--no</strong>) بسیار مؤثر است. موارد رایج برای حذف: blurry (تاری)، low quality (کیفیت پایین)، distorted (تحریف شده)، extra fingers (انگشت اضافه)، ugly (زشت)، watermark (واترمارک)، text (متن ناخواسته)، signature (امضا).</p>
+    <div class="prompt-box good"><span class="label">✅ مثال (برای Stable Diffusion)</span><span style="direction: ltr; text-align: left; display: block;">Positive: beautiful portrait of a woman in a garden, soft lighting, 8K | Negative: blurry, low resolution, distorted face, extra limbs, watermark, text, signature, ugly, deformed, bad anatomy</span></div>
+
+    <h3 style="text-align: justify; direction: rtl;">تکنیک ۶: تکرار و اصلاح (Iterative Refinement) 🔄</h3>
+    <p style="text-align: justify; direction: rtl;">به ندرت پیش می‌آید که اولین خروجی دقیقاً همان چیزی باشد که می‌خواهید. پرامپت نویسی تصویری یک <strong>فرآیند تکراری</strong> است: پرامپت را بنویسید، خروجی را ببینید، آن را تحلیل کنید، پرامپت را اصلاح کنید و دوباره امتحان کنید. با هر تکرار، پرامپت شما دقیق‌تر و خروجی‌ها بهتر می‌شوند. هر بار فقط <strong>یک عنصر</strong> را تغییر دهید تا بفهمید کدام تغییر چه تأثیری دارد. این تکنیک صبر می‌خواهد اما نتیجه آن ارزشمند است.</p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ابزارها                                   -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">🛠️ ابزارهای پیشنهادی برای تولید تصویر</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.8rem; min-width: 650px;">
+            <thead><tr><th style="padding: 10px 6px;">ابزار</th><th style="padding: 10px 6px;">قیمت</th><th style="padding: 10px 6px;">نحوه دسترسی</th><th style="padding: 10px 6px;">بهترین کاربرد</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px 6px;"><strong>Midjourney</strong></td><td style="padding: 8px 6px;">محدود رایگان</td><td style="padding: 8px 6px;">دیسکورد</td><td style="padding: 8px 6px;">تصاویر هنری، خلاقانه و سینمایی</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>DALL-E 3</strong></td><td style="padding: 8px 6px;">ChatGPT Plus</td><td style="padding: 8px 6px;">داخل ChatGPT</td><td style="padding: 8px 6px;">دقت بالا، فهم عالی زبان طبیعی</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Leonardo.ai</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">وبسایت</td><td style="padding: 8px 6px;">۱۵۰ اعتبار روزانه رایگان</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Adobe Firefly</strong></td><td style="padding: 8px 6px;">رایگان محدود</td><td style="padding: 8px 6px;">فتوشاپ و وب</td><td style="padding: 8px 6px;">یکپارچه با محصولات Adobe</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Stable Diffusion</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">نصب روی کامپیوتر</td><td style="padding: 8px 6px;">متن‌باز، قابل شخصی‌سازی کامل</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Ideogram</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">وبسایت</td><td style="padding: 8px 6px;">تولید متن در تصویر (Typography)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box" style="text-align: justify; direction: rtl;"><span class="label">💡 نکته</span>برای شروع، <strong>Leonardo.ai</strong> را توصیه می‌کنیم — رایگان است، اعتبار روزانه دارد، مدل‌های متنوعی ارائه می‌دهد و رابط کاربری ساده‌ای دارد. برای کار حرفه‌ای‌تر، <strong>Midjourney</strong> استاندارد طلایی صنعت محسوب می‌شود.</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   اشتباهات رایج                              -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">🚫 اشتباهات رایج در پرامپت نویسی تصویری</h3>
+    <ol style="text-align: justify; direction: rtl;">
+        <li style="text-align: justify; direction: rtl;"><strong>پرامپت خیلی کوتاه:</strong> «A beautiful landscape» — هیچ جزئیاتی ندارد، خروجی تصادفی و بی‌روح خواهد بود.</li>
+        <li style="text-align: justify; direction: rtl;"><strong>پرامپت به فارسی:</strong> مدل‌های تصویری انگلیسی را می‌فهمند، نه فارسی را. همیشه پرامپت تصویری را به انگلیسی بنویسید.</li>
+        <li style="text-align: justify; direction: rtl;"><strong>نگفتن نسبت ابعاد:</strong> تصویر با نسبت پیش‌فرض (معمولاً 1:1) ساخته می‌شود که ممکن است مناسب پلتفرم شما نباشد.</li>
+        <li style="text-align: justify; direction: rtl;"><strong>اطلاعات متناقض:</strong> «a sunny day in a dark forest» — متناقض است و AI را گیج می‌کند.</li>
+        <li style="text-align: justify; direction: rtl;"><strong>تسلیم شدن بعد از اولین تلاش:</strong> پرامپت تصویری نیاز به تکرار و اصلاح دارد. خروجی اول را ببینید، تحلیل کنید و پرامپت را بهبود دهید.</li>
+        <li style="text-align: justify; direction: rtl;"><strong>استفاده نکردن از Negative Prompt:</strong> در Stable Diffusion و Leonardo، نگفتن چیزهایی که نمی‌خواهید به اندازه گفتن چیزهایی که می‌خواهید مهم است.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   عیب‌یابی                                   -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">🔧 عیب‌یابی — وقتی خروجی تصویری خوب نیست</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.82rem;">
+            <thead><tr><th style="padding: 10px 6px;">مشکل</th><th style="padding: 10px 6px;">علت احتمالی</th><th style="padding: 10px 6px;">راه‌حل</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px 6px;">تصویر بی‌ربط است</td><td style="padding: 8px 6px;">پرامپت خیلی کوتاه یا مبهم</td><td style="padding: 8px 6px;">جزئیات بیشتری اضافه کنید</td></tr>
+                <tr><td style="padding: 8px 6px;">چهره‌ها عجیب هستند</td><td style="padding: 8px 6px;">مدل در چهره ضعیف است</td><td style="padding: 8px 6px;">از Midjourney یا Leonardo استفاده کنید</td></tr>
+                <tr><td style="padding: 8px 6px;">انگشتان اضافه یا دست عجیب</td><td style="padding: 8px 6px;">مشکل رایج مدل‌های تصویری</td><td style="padding: 8px 6px;">در Negative Prompt بنویسید: extra fingers</td></tr>
+                <tr><td style="padding: 8px 6px;">کیفیت پایین است</td><td style="padding: 8px 6px;">کیفیت را مشخص نکردید</td><td style="padding: 8px 6px;">اضافه کنید: 4K, 8K, high resolution</td></tr>
+                <tr><td style="padding: 8px 6px;">متن داخل تصویر غلط است</td><td style="padding: 8px 6px;">AI در نوشتن متن ضعیف است</td><td style="padding: 8px 6px;">از Ideogram استفاده کنید یا متن را بعداً اضافه کنید</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   چک‌لیست                                    -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">✅ چک‌لیست نهایی — قبل از ارسال پرامپت تصویری</h3>
+    <ol style="text-align: justify; direction: rtl;">
+        <li style="text-align: justify; direction: rtl;">آیا پرامپت را به <strong>انگلیسی</strong> نوشته‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>سوژه</strong> را با جزئیات کامل توصیف کرده‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>سبک هنری</strong> را مشخص کرده‌ام (رئال، آبرنگی، مینیمال، سایبرپانک...)؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>فضا و محیط</strong> را توضیح داده‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>نورپردازی و پالت رنگی</strong> را ذکر کرده‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>کیفیت و جزئیات فنی</strong> (4K، زاویه دوربین) را گفته‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا <strong>نسبت ابعاد</strong> مناسب پلتفرم مقصد را انتخاب کرده‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا از <strong>Negative Prompt</strong> (در صورت نیاز) استفاده کرده‌ام؟</li>
+        <li style="text-align: justify; direction: rtl;">آیا آماده‌ام پرامپت را <strong>تکرار و اصلاح</strong> کنم اگر خروجی اول ایده‌آل نبود؟</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   پرامپت‌های طلایی                            -->
+    <!-- ============================================ -->
+    <h3 style="text-align: justify; direction: rtl;">🌟 پرامپت‌های طلایی — نمونه‌های نهایی</h3>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۱: لوگو</span><span style="direction: ltr; text-align: left; display: block;">minimalist logo for a tech startup named "Nova", abstract geometric shape representing a rising star, vector style, flat design, gradient from deep blue to electric purple, negative space, white background, professional, scalable, --ar 1:1 --style raw</span></div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۲: استوری اینستاگرام</span><span style="direction: ltr; text-align: left; display: block;">a cozy autumn coffee scene, a ceramic mug with latte art on a wooden table, scattered cinnamon sticks and maple leaves, soft golden hour light from a nearby window, warm orange and brown tones, bokeh background, 4K, --ar 9:16</span></div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۳: کاراکتر</span><span style="direction: ltr; text-align: left; display: block;">a cute mascot character for a children's book, a small round fluffy owl with big expressive eyes, wearing tiny round glasses, watercolor illustration style, soft pastel colors, white background, multiple poses and expressions, --ar 4:5</span></div>
+
+    <div class="end-section" style="text-align: center; direction: rtl;">🏁 پایان فصل دوم — حالا می‌توانید تصاویر حرفه‌ای با AI خلق کنید</div>
+
+    <!-- ==================== آزمون فصل دوم ==================== -->
+    <!-- توزیع پاسخ‌ها: c:0=4, c:1=4, c:2=4, c:3=3 -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون فصل دوم</div>
+        <div class="quiz-subtitle">۱۵ سوال چهارگزینه‌ای — پاسخ‌ها به‌صورت متعادل بین ۴ گزینه توزیع شده‌اند</div>
+        <div id="quizChapter2"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'پرامپت‌های تصویری باید به چه زبانی نوشته شوند؟', o: ['انگلیسی', 'فارسی', 'فرانسوی', 'اسپانیایی'], c: 0 },
+            { q: 'فرمول طلایی پرامپت تصویری چند عنصر دارد؟', o: ['۳', '۱۰', '۵', '۷'], c: 2 },
+            { q: 'اولین عنصر فرمول طلایی پرامپت تصویری چیست؟', o: ['نورپردازی', 'سوژه (Subject)', 'سبک هنری', 'کیفیت'], c: 1 },
+            { q: 'Golden Hour در پرامپت تصویری به چه معناست؟', o: ['ظهر آفتابی', 'نیمه شب', 'صبح زود', 'نور طلایی یک ساعت قبل از غروب'], c: 3 },
+            { q: 'Midjourney از چه طریقی کار می‌کند؟', o: ['وبسایت', 'ایمیل', 'دیسکورد', 'تلگرام'], c: 2 },
+            { q: 'نسبت ابعاد 9:16 برای چه نوع محتوایی مناسب است؟', o: ['پست مربع', 'استوری و ریلز اینستاگرام', 'بنر افقی', 'لوگو'], c: 1 },
+            { q: 'سبک Studio Ghibli برای چه نوع تصاویری عالی است؟', o: ['تصاویر رؤیایی و فانتزی', 'تصاویر مینیمال', 'تصاویر تیره', 'تصاویر سیاه و سفید'], c: 0 },
+            { q: 'DALL-E 3 در کجا در دسترس است؟', o: ['ChatGPT Plus', 'نرم‌افزار جداگانه', 'وبسایت', 'تلگرام'], c: 0 },
+            { q: 'Stable Diffusion چه مزیت بزرگی دارد؟', o: ['پولی است', 'فقط آنلاین', 'نیاز به دعوتنامه', 'متن‌باز و رایگان — قابل نصب'], c: 3 },
+            { q: 'کدام ابزار ۱۵۰ اعتبار رایگان روزانه دارد؟', o: ['Midjourney', 'Leonardo.ai', 'DALL-E 3', 'Photoshop'], c: 1 },
+            { q: 'Negative Prompt یعنی چه؟', o: ['گفتن چیزهایی که نباید باشد', 'پرامپت منفی‌بافانه', 'پرامپت کوتاه', 'پرامپت فارسی'], c: 0 },
+            { q: 'برای طراحی لوگو چه سبکی مناسب‌تر است؟', o: ['شلوغ', 'تیره', 'مینیمال و وکتور', 'پیچیده'], c: 2 },
+            { q: 'Adobe Firefly کجا یکپارچه شده است؟', o: ['Word', 'Excel', 'فتوشاپ و محصولات Adobe', 'Spotify'], c: 2 },
+            { q: 'رایج‌ترین اشتباه در پرامپت تصویری چیست؟', o: ['پرامپت بلند', 'انگلیسی نوشتن', 'پرامپت خیلی کوتاه و بدون جزئیات', 'استفاده از جدول'], c: 2 },
+            { q: 'اگر چهره در تصویر عجیب بود چه کنیم؟', o: ['هیچی', 'پرامپت را پاک کنیم', 'از Midjourney یا Leonardo استفاده کنیم', 'فارسی بنویسیم'], c: 2 }
+        ];
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizChapter2');
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون فصل دوم</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qc2Select(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qc2Next()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+        window.qc2Select = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qc2Next = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! فصل دوم را کامل آموختی.' : p >= 70 ? 'خوب است! آماده فصل سوم.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qc2Restart()">🔄 شروع دوباره</button></div>';
+        }
+        window.qc2Restart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        </article>
+
+        <!-- ==================== فصل سوم ==================== -->
+       <!-- ==================== فصل سوم ==================== -->
+<!-- این کد را دقیقاً به جای خطوط مربوط به فصل سوم در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="chapter3" style="text-align: justify;">
+    <div class="breadcrumb">📄 فصل سوم</div>
+    <div class="section-title"><span class="icon">📑</span> پرامپت نویسی برای ساخت فایل (اسلاید، PDF، اکسل، ورد)</div>
+
+    <p style="text-align: justify;">یکی از قدرتمندترین و در عین حال ناشناخته‌ترین کاربردهای هوش مصنوعی مولد، <strong>ساخت فایل‌های آماده</strong> است. تصور کنید به‌جای ساعت‌ها کار با پاورپوینت، ورد یا اکسل، تنها با نوشتن یک پرامپت دقیق، یک فایل کامل و حرفه‌ای تحویل بگیرید. از اسلایدهای پرزنتیشن گرفته تا گزارش‌های PDF، از فایل‌های اکسل تحلیلی تا اسناد ورد حقوقی — همه با <strong>پرامپت نویسی</strong> قابل انجام است. در این فصل، اصول، تکنیک‌ها و ابزارهای این حوزه را به‌صورت کامل یاد می‌گیرید.</p>
+
+    <div class="info-box"><span class="label">💡 نکته کلیدی</span>برخلاف پرامپت‌های متنی که خروجی آن‌ها متن است، پرامپت‌های ساخت فایل باید <strong>ساختار فایل</strong> را نیز مشخص کنند: تعداد صفحات، نوع نمودار، ستون‌های جدول، رنگ‌بندی اسلایدها و حتی فونت. هرچه ساختار را دقیق‌تر بگویید، فایل نهایی حرفه‌ای‌تر خواهد بود.</div>
+
+    <!-- ============================================ -->
+    <!--   USE CASES                                 -->
+    <!-- ============================================ -->
+    <h3>📍 با پرامپت نویسی برای ساخت فایل چه کارهایی می‌توانیم انجام دهیم؟</h3>
+    <p style="text-align: justify;">قبل از ورود به تکنیک‌ها، ببینیم این مهارت در چه موقعیت‌های واقعی به کار می‌آید:</p>
+
+    <div class="use-case-grid">
+        <div class="use-case-card"><span class="use-case-icon">📽️</span><span class="use-case-text"><strong>اسلاید پرزنتیشن:</strong> ارائه دانشگاهی، Pitch Deck استارتاپی، گزارش عملکرد به مدیران، وبینار آموزشی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📑</span><span class="use-case-text"><strong>گزارش PDF:</strong> گزارش پروژه، گزارش مالی، گزارش بازاریابی، خلاصه مدیریتی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📊</span><span class="use-case-text"><strong>فایل اکسل:</strong> بودجه‌بندی، مدیریت پروژه، پیگیری فروش، تحلیل داده، صورت‌های مالی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📝</span><span class="use-case-text"><strong>سند ورد:</strong> قرارداد حقوقی، پروپوزال کاری، نامه اداری، گزارش رسمی، دستورالعمل</span></div>
+        <div class="use-case-card"><span class="use-case-icon">💼</span><span class="use-case-text"><strong>رزومه و کاورلتر:</strong> رزومه حرفه‌ای، نامه پوششی (Cover Letter)، پروفایل لینکدین</span></div>
+        <div class="use-case-card"><span class="use-case-icon">✅</span><span class="use-case-text"><strong>چک‌لیست و فرم:</strong> چک‌لیست سفر، فرم ارزیابی، لیست خرید، برنامه تمیزکاری</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📈</span><span class="use-case-text"><strong>نمودار و اینفوگرافیک:</strong> نمودار فروش، اینفوگرافیک آماری، Timeline پروژه، فلوچارت</span></div>
+        <div class="use-case-card"><span class="use-case-text"><strong>📋 فرم‌های اداری:</strong> فرم درخواست مرخصی، فرم ارزیابی کارمند، فرم ثبت‌نام، پرسشنامه</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۶ اصل طلایی                                -->
+    <!-- ============================================ -->
+    <h3>🧠 ۶ اصل طلایی پرامپت نویسی برای ساخت فایل</h3>
+    <p style="text-align: justify;">این اصول، ستون‌های اصلی هر پرامپت موفق برای ساخت فایل هستند. آن‌ها را به‌عنوان یک <strong>چک‌لیست ذهنی</strong> قبل از نوشتن هر پرامپت در نظر بگیرید:</p>
+
+    <h3>اصل اول: نوع فایل را دقیق مشخص کنید 📁</h3>
+    <p style="text-align: justify;"><strong>اولین و مهم‌ترین قدم.</strong> AI باید بداند چه نوع فایلی می‌خواهید. «یک فایل PDF سه‌صفحه‌ای»، «یک پرزنتیشن ۱۰ اسلایدی»، «یک فایل اکسل با ۵ ستون»، «یک سند ورد با ساختار قرارداد». اگر نوع فایل را نگویید، AI نمی‌داند چه قالبی باید تولید کند و خروجی بی‌استفاده خواهد بود.</p>
+    <div class="prompt-box bad"><span class="label">❌ ضعیف</span>«یه گزارش برام درست کن.»</div>
+    <div class="prompt-box good"><span class="label">✅ دقیق</span>«یک <strong>فایل PDF سه‌صفحه‌ای</strong> شامل گزارش عملکرد فروش سه‌ماهه اول سال آماده کن.»</div>
+
+    <h3>اصل دوم: ساختار را با جزئیات کامل بگویید 🏗️</h3>
+    <p style="text-align: justify;">مهم‌ترین اصلی که پرامپت فایل را از پرامپت متنی جدا می‌کند. <strong>ساختار فایل</strong> را صفحه‌به‌صفحه یا اسلاید‌به‌اسلاید توصیف کنید. برای اسلاید: «اسلاید اول عنوان، اسلاید دوم فهرست، اسلاید سوم تا هشتم محتوا با یک تصویر و ۳ بولت‌پوینت، اسلاید نهم جمع‌بندی». برای PDF: «صفحه اول جلد با عنوان و تاریخ، صفحه دوم چکیده، صفحات سوم تا پنجم متن اصلی با سه بخش، صفحه ششم نتیجه‌گیری». برای اکسل: «ستون اول تاریخ، ستون دوم شرح، ستون سوم مبلغ، ستون چهارم وضعیت، با فرمول جمع خودکار در انتها».</p>
+    <div class="prompt-box bad"><span class="label">❌ بدون ساختار</span>«چندتا اسلاید در مورد بازاریابی بساز.»</div>
+    <div class="prompt-box good"><span class="label">✅ با ساختار</span>«یک پرزنتیشن <strong>۸ اسلایدی</strong> بساز: اسلاید ۱: عنوان، اسلاید ۲: فهرست ۴ محور، اسلاید ۳-۶: هر محور یک اسلاید با تصویر و ۳ نکته، اسلاید ۷: چالش‌ها، اسلاید ۸: نتیجه‌گیری و پیشنهاد.»</div>
+
+    <h3>اصل سوم: مخاطب و لحن را مشخص کنید 👥</h3>
+    <p style="text-align: justify;">فایلی که برای <strong>هیئت‌مدیره</strong> می‌سازید با فایلی که برای <strong>دانشجویان</strong> آماده می‌کنید کاملاً متفاوت است. لحن: «رسمی و تحلیلی برای مدیران ارشد»، «ساده و آموزشی برای کارآموزان»، «حرفه‌ای و مدرن برای مشتریان». این اصل به AI کمک می‌کند زبان، مثال‌ها و عمق مطلب را متناسب با مخاطب تنظیم کند.</p>
+
+    <h3>اصل چهارم: عناصر بصری را توصیف کنید 🎨</h3>
+    <p style="text-align: justify;">برای اسلایدها و فایل‌های تصویری، <strong>عناصر بصری</strong> را مشخص کنید: «هر اسلاید یک تصویر مرتبط در سمت راست و متن در سمت چپ»، «از پالت رنگی آبی نفتی و سفید استفاده کن»، «فونت خوانا و سایز مناسب برای ارائه در سالن بزرگ»، «نمودار میله‌ای برای مقایسه فروش ماهانه». این جزئیات، فایل شما را از یک خروجی آماتور به یک کار حرفه‌ای تبدیل می‌کند.</p>
+
+    <h3>اصل پنجم: داده‌ها و ورودی‌ها را مشخص کنید 📊</h3>
+    <p style="text-align: justify;">اگر فایلی می‌خواهید که با <strong>داده‌های واقعی</strong> کار کند (مثل اکسل)، داده‌ها را توضیح دهید: «فروش ۶ ماه گذشته: فروردین ۵۰ میلیون، اردیبهشت ۴۵، خرداد ۶۰، تیر ۵۵، مرداد ۷۰، شهریور ۸۰». اگر داده ندارید، از AI بخواهید از <strong>داده‌های نمونه</strong> استفاده کند: «با داده‌های فرضی یک شرکت نرم‌افزاری». همچنین می‌توانید <strong>فرمول‌ها</strong> را مشخص کنید: «ستون جمع کل = جمع ستون‌های قبلی»، «درصد تغییر = (این ماه - ماه قبل) / ماه قبل».</p>
+
+    <h3>اصل ششم: ابزار مقصد را بگویید 🛠️</h3>
+    <p style="text-align: justify;">برخی پرامپت‌ها نیاز دارند بدانید <strong>در چه ابزاری</strong> می‌خواهید فایل را بسازید. «در Gamma.app می‌خواهم بسازمش»، «برای Canva طراحی کن»، «با ChatGPT Code Interpreter تحلیل کن». هر ابزار قابلیت‌های متفاوتی دارد و ذکر نام ابزار به AI کمک می‌کند خروجی را متناسب با آن تنظیم کند. Gamma.app برای اسلاید، Canva برای طراحی، ChatGPT Code Interpreter برای تحلیل داده و نمودار، Google Sheets برای اکسل.</p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۵ تکنیک پیشرفته                             -->
+    <!-- ============================================ -->
+    <h3>📋 ۵ تکنیک پیشرفته پرامپت نویسی برای ساخت فایل</h3>
+
+    <h3>تکنیک ۱: درخواست قالب‌های آماده (Template Request) 📋</h3>
+    <p style="text-align: justify;">از AI بخواهید <strong>قالب‌های آماده و استاندارد</strong> را برایتان تولید کند. این تکنیک برای فایل‌هایی که ساختار مشخص و تکراری دارند (مثل قرارداد، رزومه، فاکتور) فوق‌العاده است. می‌توانید بگویید: «از قالب استاندارد قراردادهای پیمانکاری استفاده کن»، «رزومه به سبک Harvard template»، «فاکتور رسمی با سربرگ شرکت». AI میلیون‌ها قالب را در داده‌های آموزشی خود دیده و می‌تواند آن‌ها را بازتولید کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«یک <strong>قالب استاندارد قرارداد همکاری</strong> بین یک شرکت طراحی وب و یک فریلنسر تولید محتوا آماده کن. شامل بندهای: موضوع قرارداد، مدت، مبلغ، نحوه پرداخت، مالکیت معنوی، فسخ. خروجی: سند ورد آماده با جای‌گذاری برای نام‌ها و تاریخ.»</div>
+
+    <h3>تکنیک ۲: تبدیل فرمت (Format Conversion) 🔄</h3>
+    <p style="text-align: justify;">از AI بخواهید <strong>محتوا را از یک فرمت به فرمت دیگر</strong> تبدیل کند. «این متن را به یک پرزنتیشن ۵ اسلایدی تبدیل کن»، «این داده‌های CSV را به یک فایل اکسل با نمودار تبدیل کن»، «این مقاله را به یک اینفوگرافیک توصیفی تبدیل کن». این تکنیک وقتی عالی است که محتوا را دارید اما نیاز به قالبی متفاوت دارید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«این <strong>گزارش متنی ۵ صفحه‌ای</strong> را به یک <strong>پرزنتیشن ۷ اسلایدی</strong> تبدیل کن. هر اسلاید حداکثر ۳ بولت‌پوینت و یک تصویر پیشنهادی داشته باشد. لحن: رسمی و مناسب ارائه به هیئت‌مدیره.»</div>
+
+    <h3>تکنیک ۳: ساخت فایل‌های تعاملی (Interactive Elements) 🎮</h3>
+    <p style="text-align: justify;">فقط به فایل‌های ایستا اکتفا نکنید. از AI بخواهید <strong>عناصر تعاملی</strong> به فایل اضافه کند: «در اکسل، یک دکمه برای فیلتر کردن داده‌ها اضافه کن»، «در PDF، فهرست مطالب کلیک‌پذیر با لینک به صفحات داخلی بساز»، «در اسلاید، انیمیشن‌های ساده برای نمایش مرحله‌ای مطالب اضافه کن». این تکنیک فایل شما را از یک سند ساده به یک ابزار حرفه‌ای تبدیل می‌کند.</p>
+
+    <h3>تکنیک ۴: ساخت نسخه‌های چندگانه برای پلتفرم‌های مختلف 📱</h3>
+    <p style="text-align: justify;">یک محتوا را برای <strong>چند پلتفرم مختلف</strong> به‌طور هم‌زمان آماده کنید. «همین گزارش را در سه نسخه آماده کن: PDF کامل برای چاپ، اسلاید برای ارائه، و یک متن کوتاه برای ایمیل». این تکنیک در وقت شما صرفه‌جویی عظیمی می‌کند و پیام شما را به‌صورت یکپارچه در همه کانال‌ها منتشر می‌کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«گزارش عملکرد سالانه شرکت را در <strong>سه نسخه</strong> آماده کن: ۱) PDF کامل ۱۰ صفحه‌ای برای آرشیو، ۲) پرزنتیشن ۱۲ اسلایدی برای ارائه، ۳) خلاصه یک‌صفحه‌ای برای ایمیل به سهامداران.»</div>
+
+    <h3>تکنیک ۵: اتوماسیون فایل‌های تکراری (Automation) 🤖</h3>
+    <p style="text-align: justify;">برای کارهای تکراری، از AI بخواهید <strong>سیستمی برای تولید خودکار</strong> طراحی کند. «برای ۱۲ ماه سال، ۱۲ برگه اکسل جداگانه با ساختار یکسان بساز»، «برای ۵۰ مشتری، ۵۰ فاکتور شخصی‌سازی‌شده با نام و مبلغ متفاوت آماده کن». این تکنیک برای کسب‌وکارهایی که با حجم بالای کارهای تکراری روبرو هستند، تحول‌آفرین است.</p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ابزارها                                   -->
+    <!-- ============================================ -->
+    <h3>🛠️ ابزارهای پیشنهادی برای ساخت فایل</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.8rem; min-width: 650px;">
+            <thead><tr><th style="padding: 10px 6px;">ابزار</th><th style="padding: 10px 6px;">قیمت</th><th style="padding: 10px 6px;">نوع فایل</th><th style="padding: 10px 6px;">بهترین کاربرد</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px 6px;"><strong>Gamma.app</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">اسلاید، پرزنتیشن</td><td style="padding: 8px 6px;">ساخت سریع اسلاید حرفه‌ای</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>ChatGPT Code Interpreter</strong></td><td style="padding: 8px 6px;">Plus</td><td style="padding: 8px 6px;">اکسل، نمودار، تحلیل</td><td style="padding: 8px 6px;">تحلیل داده و رسم نمودار</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Canva AI</strong></td><td style="padding: 8px 6px;">رایگان / Pro</td><td style="padding: 8px 6px;">اسلاید، PDF، پوستر</td><td style="padding: 8px 6px;">طراحی گرافیکی فایل‌ها</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Google Sheets + Gemini</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">اکسل، تحلیل داده</td><td style="padding: 8px 6px;">تحلیل داده با AI گوگل</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Copilot (Office)</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">ورد، اکسل، پاورپوینت</td><td style="padding: 8px 6px;">یکپارچه با آفیس مایکروسافت</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box"><span class="label">💡 نکته</span>برای شروع، <strong>Gamma.app</strong> را توصیه می‌کنیم — رایگان است، تنها با یک پرامپت اسلایدهای حرفه‌ای می‌سازد و رابط کاربری بسیار ساده‌ای دارد. برای تحلیل داده، <strong>ChatGPT Code Interpreter</strong> (نسخه Plus) قدرتمندترین گزینه است.</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   اشتباهات رایج                              -->
+    <!-- ============================================ -->
+    <h3>🚫 اشتباهات رایج در پرامپت نویسی برای ساخت فایل</h3>
+    <ol>
+        <li style="text-align: justify;"><strong>نگفتن نوع فایل:</strong> «یه گزارش درست کن» — AI نمی‌داند PDF می‌خواهید یا اسلاید یا ورد.</li>
+        <li style="text-align: justify;"><strong>ندادن ساختار:</strong> «چندتا اسلاید در مورد X» — بدون ساختار، اسلایدها بی‌نظم و بی‌ربط خواهند بود.</li>
+        <li style="text-align: justify;"><strong>فراموش کردن عناصر بصری:</strong> اسلایدهای شما ممکن است پر از متن و بدون هیچ تصویر یا نموداری باشند.</li>
+        <li style="text-align: justify;"><strong>ندادن داده‌های دقیق:</strong> برای فایل‌های عددی (اکسل)، اگر داده‌ها را ندهید، AI از داده‌های فرضی استفاده می‌کند که ممکن است با واقعیت شما هم‌خوانی نداشته باشد.</li>
+        <li style="text-align: justify;"><strong>تسلیم شدن بعد از اولین خروجی:</strong> فایل اول را بگیرید، اشکالاتش را بگویید و از AI بخواهید اصلاح کند. پرامپت نویسی برای فایل، یک فرآیند <strong>تکراری و اصلاحی</strong> است.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   عیب‌یابی                                   -->
+    <!-- ============================================ -->
+    <h3>🔧 عیب‌یابی — وقتی خروجی فایل خوب نیست</h3>
+    <table class="styled-table" style="font-size: 0.82rem;">
+        <thead><tr><th style="padding: 10px 6px;">مشکل</th><th style="padding: 10px 6px;">علت احتمالی</th><th style="padding: 10px 6px;">راه‌حل</th></tr></thead>
+        <tbody>
+            <tr><td style="padding: 8px 6px;">اسلایدها پر از متن هستند</td><td style="padding: 8px 6px;">محدودیت بولت‌پوینت را نگفتید</td><td style="padding: 8px 6px;">بگویید: «هر اسلاید حداکثر ۳ بولت‌پوینت»</td></tr>
+            <tr><td style="padding: 8px 6px;">فایل PDF بی‌سربرگ است</td><td style="padding: 8px 6px;">ساختار صفحه اول را نگفتید</td><td style="padding: 8px 6px;">بگویید: «صفحه اول: جلد با عنوان و لوگو»</td></tr>
+            <tr><td style="padding: 8px 6px;">نمودار در اکسل نیست</td><td style="padding: 8px 6px;">نوع نمودار را مشخص نکردید</td><td style="padding: 8px 6px;">بگویید: «نمودار میله‌ای برای فروش ماهانه»</td></tr>
+            <tr><td style="padding: 8px 6px;">فایل ورد قالب ندارد</td><td style="padding: 8px 6px;">نام قالب استاندارد را نگفتید</td><td style="padding: 8px 6px;">بگویید: «از قالب استاندارد قرارداد استفاده کن»</td></tr>
+            <tr><td style="padding: 8px 6px;">داده‌های فرضی بی‌ربط هستند</td><td style="padding: 8px 6px;">داده‌های واقعی را ندادید</td><td style="padding: 8px 6px;">داده‌های خود را در پرامپت بگنجانید</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   چک‌لیست                                    -->
+    <!-- ============================================ -->
+    <h3>✅ چک‌لیست نهایی — قبل از ارسال پرامپت ساخت فایل</h3>
+    <ol>
+        <li style="text-align: justify;">آیا <strong>نوع فایل</strong> را دقیقاً گفته‌ام (PDF، اسلاید، اکسل، ورد)؟</li>
+        <li style="text-align: justify;">آیا <strong>ساختار</strong> را صفحه‌به‌صفحه یا اسلاید‌به‌اسلاید توصیف کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>مخاطب و لحن</strong> را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>عناصر بصری</strong> (تصاویر، نمودارها، رنگ‌بندی) را ذکر کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>داده‌ها و اعداد</strong> (اگر فایل عددی است) را ارائه داده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>ابزار مقصد</strong> (Gamma، Canva، Code Interpreter) را گفته‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>فرمول‌ها و محاسبات</strong> (اگر اکسل است) را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا آماده‌ام خروجی اول را <strong>بررسی و اصلاح</strong> کنم؟</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   پرامپت‌های طلایی                            -->
+    <!-- ============================================ -->
+    <h3>🌟 پرامپت‌های طلایی — نمونه‌های نهایی</h3>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۱: پرزنتیشن</span>«یک <strong>پرزنتیشن ۱۰ اسلایدی</strong> با Gamma.app برای ارائه به سرمایه‌گذاران بالقوه بساز. موضوع: «پلتفرم آموزش آنلاین زبان فارسی». ساختار: اسلاید ۱: عنوان و لوگو، اسلاید ۲: مسئله (چرا مردم فارسی یاد نمی‌گیرند؟)، اسلاید ۳: راه‌حل ما، اسلاید ۴: بازار هدف و آمار، اسلاید ۵: مدل درآمدی، اسلاید ۶: تیم، اسلاید ۷: نقشه راه، اسلاید ۸: پیش‌بینی مالی، اسلاید ۹: درخواست سرمایه، اسلاید ۱۰: تشکر و اطلاعات تماس. هر اسلاید یک تصویر و حداکثر ۳ بولت‌پوینت. لحن: حرفه‌ای، متقاعدکننده، مدرن. پالت رنگی: آبی نفتی و طلایی.»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۲: اکسل تحلیلی</span>«یک <strong>فایل اکسل</strong> برای تحلیل فروش ۶ ماهه یک فروشگاه آنلاین بساز. داده‌ها: فروردین ۵۰، اردیبهشت ۴۵، خرداد ۶۰، تیر ۵۵، مرداد ۷۰، شهریور ۸۰ (همه به میلیون تومان). شامل: ۱) جدول داده‌ها، ۲) نمودار میله‌ای فروش ماهانه، ۳) ستون درصد تغییر نسبت به ماه قبل با فرمول، ۴) جمع کل و میانگین، ۵) قالب‌بندی رنگی (سبز برای رشد، قرمز برای کاهش). با ChatGPT Code Interpreter تحلیل کن.»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۳: رزومه</span>«یک <strong>رزومه حرفه‌ای</strong> برای یک طراح گرافیک با ۵ سال سابقه آماده کن. شامل: اطلاعات تماس، خلاصه حرفه‌ای، مهارت‌ها (Adobe Suite، Figma، UI/UX)، سوابق شغلی (دو شرکت)، تحصیلات، نمونه‌کارها، زبان‌ها. سبک: مینیمال و مدرن، تک‌صفحه‌ای، پالت رنگی مشکی و سفید با تأکید سبز. خروجی: سند ورد آماده برای ویرایش در Canva.»</div>
+
+    <div class="end-section">🏁 پایان فصل سوم — حالا می‌توانید فایل‌های حرفه‌ای با AI بسازید</div>
+
+    <!-- ==================== آزمون فصل سوم ==================== -->
+    <!-- توزیع پاسخ‌ها: c:0=4, c:1=4, c:2=4, c:3=3 -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون فصل سوم</div>
+        <div class="quiz-subtitle">۱۵ سوال چهارگزینه‌ای — پاسخ‌ها به‌صورت متعادل بین ۴ گزینه توزیع شده‌اند</div>
+        <div id="quizChapter3"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'اولین و مهم‌ترین قدم در پرامپت ساخت فایل چیست؟', o: ['انتخاب رنگ', 'نوشتن محتوا', 'مشخص کردن نوع فایل', 'ذخیره فایل'], c: 2 },
+            { q: 'برای اسلاید پرزنتیشن چه ابزار رایگانی پیشنهاد شده است؟', o: ['Gamma.app', 'Photoshop', 'Excel', 'Word'], c: 0 },
+            { q: 'اگر ساختار فایل را در پرامپت نگوییم، چه می‌شود؟', o: ['AI خودش ساختار می‌دهد', 'خروجی بی‌نظم و بی‌ربط خواهد بود', 'AI خطا می‌دهد', 'فایل ساخته نمی‌شود'], c: 1 },
+            { q: 'ChatGPT Code Interpreter چه کاربردی دارد؟', o: ['تولید تصویر', 'ساخت موسیقی', 'تحلیل داده، رسم نمودار و ساخت اکسل', 'تدوین ویدئو'], c: 2 },
+            { q: 'برای ساخت PDF چه چیزی باید در پرامپت مشخص کنیم؟', o: ['فقط عنوان', 'فقط رنگ', 'ساختار و تعداد صفحات', 'فقط فونت'], c: 2 },
+            { q: 'کدام ابزار با آفیس مایکروسافت یکپارچه است؟', o: ['Copilot', 'Midjourney', 'Suno', 'CapCut'], c: 0 },
+            { q: 'در پرامپت رزومه چه اطلاعاتی باید بدهیم؟', o: ['فقط اسم', 'تجربیات، مهارت‌ها و قالب مورد نظر', 'فقط سن', 'فقط عکس'], c: 1 },
+            { q: 'تکنیک تبدیل فرمت یعنی چه؟', o: ['حذف فایل', 'کپی فایل', 'تبدیل محتوا از یک فرمت به فرمت دیگر', 'فشرده‌سازی فایل'], c: 2 },
+            { q: 'اگر داده‌های واقعی را در پرامپت ندهیم، AI چه می‌کند؟', o: ['از داده‌های فرضی استفاده می‌کند', 'سوال می‌پرسد', 'خطا می‌دهد', 'فایل را نمی‌سازد'], c: 0 },
+            { q: 'Canva AI برای چه نوع فایل‌هایی مناسب است؟', o: ['فقط اکسل', 'اسلاید، PDF، پوستر و طراحی گرافیکی', 'فقط کدنویسی', 'فقط موسیقی'], c: 1 },
+            { q: 'مهم‌ترین اصلی که پرامپت فایل را از پرامپت متنی جدا می‌کند چیست؟', o: ['لحن', 'طول پرامپت', 'زبان پرامپت', 'ساختار فایل'], c: 3 },
+            { q: 'برای چک‌لیست چه قالبی مناسب است؟', o: ['لیست با تیک‌باکس', 'پاراگراف بلند', 'داستان', 'شعر'], c: 0 },
+            { q: 'Google Sheets + Gemini برای چه کاری عالی است؟', o: ['تصویرسازی', 'تحلیل داده و اکسل', 'موسیقی', 'ترجمه'], c: 1 },
+            { q: 'رایج‌ترین اشتباه در پرامپت ساخت فایل چیست؟', o: ['پرامپت بلند', 'انگلیسی نوشتن', 'نگفتن نوع فایل و ساختار', 'استفاده از جدول'], c: 2 },
+            { q: 'بهترین راه یادگیری پرامپت نویسی برای فایل چیست؟', o: ['تمرین با پروژه واقعی', 'فقط خواندن', 'حفظ کردن', 'فیلم دیدن'], c: 0 }
+        ];
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizChapter3');
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون فصل سوم</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qc3Select(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qc3Next()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+        window.qc3Select = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qc3Next = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! فصل سوم را کامل آموختی.' : p >= 70 ? 'خوب است! آماده فصل چهارم.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qc3Restart()">🔄 شروع دوباره</button></div>';
+        }
+        window.qc3Restart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        <article class="page-card content-section" id="chapter3">
+            <!-- محتوای فصل سوم اینجا قرار می‌گیرد -->
+        </article>
+
+        <!-- ==================== فصل چهارم ==================== -->
+        <!-- ==================== فصل چهارم ==================== -->
+<!-- این کد را دقیقاً به جای خطوط مربوط به فصل چهارم در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="chapter4" style="text-align: justify;">
+    <div class="breadcrumb">💻 فصل چهارم</div>
+    <div class="section-title"><span class="icon">⌨️</span> پرامپت نویسی برای کدنویسی</div>
+
+    <p style="text-align: justify;">یکی از تحول‌آفرین‌ترین کاربردهای هوش مصنوعی مولد، <strong>تولید و تحلیل کد</strong> است. حتی اگر یک برنامه‌نویس حرفه‌ای نیستید، با پرامپت نویسی می‌توانید کدهای کاربردی تولید کنید — از یک وب‌سایت ساده تا یک بات تلگرام، از یک اسکریپت پایتون تا یک بازی کوچک. و اگر برنامه‌نویس هستید، AI می‌تواند بهره‌وری شما را چندین برابر کند: دیباگ سریع‌تر، Refactor هوشمندانه‌تر، و یادگیری زبان‌های جدید در کسری از زمان. در این فصل، اصول، تکنیک‌ها و ابزارهای پرامپت نویسی برای کدنویسی را به‌صورت کامل یاد می‌گیرید.</p>
+
+    <div class="info-box"><span class="label">💡 نکته کلیدی</span>AI یک <strong>دستیار کدنویسی</strong> است، نه جایگزین برنامه‌نویس. کدی که تولید می‌کند را همیشه بررسی کنید، تست کنید و درک کنید. هرگز کدی را که نمی‌فهمید در محیط Production اجرا نکنید. مسئولیت نهایی کد با شماست.</div>
+
+    <!-- ============================================ -->
+    <!--   USE CASES                                 -->
+    <!-- ============================================ -->
+    <h3>📍 با پرامپت نویسی برای کدنویسی چه کارهایی می‌توانیم انجام دهیم؟</h3>
+    <p style="text-align: justify;">قبل از ورود به تکنیک‌ها، ببینیم این مهارت در چه موقعیت‌های واقعی به کار می‌آید:</p>
+
+    <div class="use-case-grid">
+        <div class="use-case-card"><span class="use-case-icon">🌐</span><span class="use-case-text"><strong>ساخت وب‌سایت:</strong> Landing Page، وب‌سایت شخصی، نمونه‌کار آنلاین، صفحه فرود محصول</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📲</span><span class="use-case-text"><strong>اپلیکیشن تحت وب:</strong> داشبورد مدیریتی، ابزار داخلی شرکت، ماشین‌حساب آنلاین</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🐍</span><span class="use-case-text"><strong>اسکریپت‌های پایتون:</strong> اتوماسیون کارهای تکراری، تغییر نام فایل‌ها، استخراج داده از PDF</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🤖</span><span class="use-case-text"><strong>بات تلگرام:</strong> بات پاسخگویی خودکار، بات اطلاع‌رسانی، بات فروشگاهی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🎮</span><span class="use-case-text"><strong>بازی ساده:</strong> بازی حدس عدد، دوز، مار و پله، سنگ-کاغذ-قیچی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🐞</span><span class="use-case-text"><strong>دیباگ و رفع خطا:</strong> پیدا کردن باگ، توضیح علت خطا، پیشنهاد راه‌حل</span></div>
+        <div class="use-case-card"><span class="use-case-icon">⚡</span><span class="use-case-text"><strong>بهینه‌سازی کد:</strong> Refactor، افزایش سرعت، کاهش مصرف حافظه، تمیزکاری کد</span></div>
+        <div class="use-case-card"><span class="use-case-text"><strong>📚 یادگیری:</strong> آموزش زبان جدید، توضیح مفاهیم پیچیده، حل تمرین</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۷ اصل طلایی                                -->
+    <!-- ============================================ -->
+    <h3>🧠 ۷ اصل طلایی پرامپت نویسی برای کدنویسی</h3>
+    <p style="text-align: justify;">این اصول، چک‌لیست ذهنی شما قبل از نوشتن هر پرامپت کدنویسی هستند. رعایت آن‌ها تفاوت بین یک کد buggy و یک کد آماده Production را رقم می‌زند:</p>
+
+    <h3>اصل اول: زبان برنامه‌نویسی را در همان ابتدا مشخص کنید 🔤</h3>
+    <p style="text-align: justify;"><strong>اولین و حیاتی‌ترین قدم.</strong> همیشه در همان جمله اول پرامپت، زبان برنامه‌نویسی را بگویید: Python، JavaScript، HTML/CSS، SQL، Java، C++، Rust. اگر زبان را نگویید، AI ممکن است زبانی را انتخاب کند که شما بلد نیستید یا مناسب پروژه‌تان نیست. برای پروژه‌های وب: HTML + CSS + JavaScript. برای اتوماسیون و داده: Python. برای اپلیکیشن: JavaScript (React/Vue) یا Python (Streamlit). برای بات تلگرام: Python (کتابخانه python-telegram-bot).</p>
+    <div class="prompt-box bad"><span class="label">❌ ضعیف</span>«یه کد بنویس که فایل‌ها رو مرتب کنه.»</div>
+    <div class="prompt-box good"><span class="label">✅ دقیق</span>«یک <strong>اسکریپت پایتون</strong> بنویس که تمام فایل‌های داخل یک پوشه را بر اساس پسوند دسته‌بندی کند و در پوشه‌های جداگانه قرار دهد.»</div>
+
+    <h3>اصل دوم: هدف و ورودی/خروجی را دقیق بگویید 🎯</h3>
+    <p style="text-align: justify;">دقیقاً بگویید کد <strong>چه کاری</strong> باید انجام دهد، <strong>چه ورودی‌هایی</strong> می‌گیرد و <strong>چه خروجی‌هایی</strong> باید تولید کند. «یک تابع بنویس که یک فایل CSV از فروش ماهانه بگیرد و نمودار فروش را رسم کند». ورودی: فایل CSV با دو ستون (ماه، مبلغ). خروجی: فایل PNG نمودار میله‌ای. هرچه ورودی و خروجی را دقیق‌تر بگویید، کد نهایی دقیق‌تر خواهد بود.</p>
+    <div class="prompt-box bad"><span class="label">❌ مبهم</span>«یه کد برای تحلیل داده بنویس.»</div>
+    <div class="prompt-box good"><span class="label">✅ دقیق</span>«یک تابع پایتون بنویس که یک <strong>فایل CSV</strong> (با ستون‌های: تاریخ، محصول، تعداد، قیمت) را بخواند، <strong>کل فروش هر محصول</strong> را محاسبه کند، و یک <strong>نمودار دایره‌ای</strong> از سهم هر محصول رسم کند. خروجی: فایل PNG با کیفیت بالا.»</div>
+
+    <h3>اصل سوم: سطح تجربه خود را بگویید 👶🧑‍💻</h3>
+    <p style="text-align: justify;">این اصل به‌شدت کیفیت خروجی را تحت‌تأثیر قرار می‌دهد. اگر مبتدی هستید، بگویید: «من مبتدی هستم — کد را خط‌به‌خط با توضیح فارسی بنویس». اگر حرفه‌ای هستید، بگویید: «من برنامه‌نویس هستم — فقط کد تمیز و بهینه بدون توضیح اضافه». AI بر اساس سطح شما، میزان توضیحات، پیچیدگی و سبک کد را تنظیم می‌کند.</p>
+    <div class="prompt-box good"><span class="label">✅ برای مبتدی</span>«من <strong>هیچی از برنامه‌نویسی نمی‌دونم</strong>. یک کد HTML ساده برای یک صفحه شخصی با نام و عکس من بنویس. <strong>هر خط را با کامنت فارسی توضیح بده.</strong>»</div>
+    <div class="prompt-box good"><span class="label">✅ برای حرفه‌ای</span>«یک <strong>Decorator در پایتون</strong> بنویس که زمان اجرای یک تابع را اندازه‌گیری کند. کد تمیز، Type-hinted، همراه با docstring. بدون توضیح اضافه.»</div>
+
+    <h3>اصل چهارم: محدودیت‌های فنی را ذکر کنید 🔒</h3>
+    <p style="text-align: justify;">مشخص کنید چه <strong>کتابخانه‌هایی</strong> می‌تواند استفاده شود، چه <strong>نسخه‌ای</strong> از زبان، و چه <strong>محدودیت‌هایی</strong> دارد. «فقط با کتابخانه‌های استاندارد پایتون»، «با Flask و SQLite»، «سازگار با Python 3.9+»، «بدون نیاز به نصب چیز اضافه»، «واکنش‌گرا برای موبایل و دسکتاپ». این اصل از تولید کدی که قابل اجرا نیست جلوگیری می‌کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«یک وب‌سایت تک‌صفحه‌ای با <strong>HTML، CSS خالص و JavaScript وانیلی</strong> (بدون هیچ فریم‌ورکی) بنویس. باید <strong>واکنش‌گرا</strong> باشد و روی موبایل هم درست نمایش داده شود. از هیچ کتابخانه خارجی استفاده نکن.»</div>
+
+    <h3>اصل پنجم: ساختار و معماری کد را بگویید 🏗️</h3>
+    <p style="text-align: justify;">برای پروژه‌های بزرگ‌تر، <strong>ساختار فایل‌ها و معماری</strong> را مشخص کنید. «پروژه را به سه فایل تقسیم کن: index.html برای ساختار، style.css برای ظاهر، script.js برای عملکرد». «از معماری MVC استفاده کن». «تابع‌ها را جداگانه در یک فایل utils.py بنویس». این اصل باعث می‌شود کد شما تمیز، قابل‌نگهداری و حرفه‌ای باشد.</p>
+
+    <h3>اصل ششم: نمونه‌های مشابه بدهید (Few-Shot for Code) 📝</h3>
+    <p style="text-align: justify;">اگر سبک کدنویسی خاصی مد نظر دارید، <strong>یک نمونه کوتاه</strong> از سبک مورد نظرتان نشان دهید. AI از روی نمونه، الگوی کدنویسی شما را یاد می‌گیرد و کد جدید را به همان سبک می‌نویسد. این تکنیک برای یکپارچگی در پروژه‌های تیمی فوق‌العاده است.</p>
+
+    <h3>اصل هفتم: تست و خطا را فراموش نکنید 🧪</h3>
+    <p style="text-align: justify;">از AI بخواهید <strong>تست‌هایی برای کد بنویسد</strong> تا از صحت عملکرد آن مطمئن شوید. «برای این تابع، ۳ Unit Test با pytest بنویس»، «ورودی‌های نمونه و خروجی مورد انتظار را هم بگو». همچنین اگر کد خطا داد، <strong>پیام کامل خطا</strong> را در پرامپت بعدی به AI بدهید — او معمولاً می‌تواند علت را تشخیص دهد و راه‌حل بدهد.</p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۵ تکنیک پیشرفته                             -->
+    <!-- ============================================ -->
+    <h3>📋 ۵ تکنیک پیشرفته پرامپت نویسی برای کدنویسی</h3>
+
+    <h3>تکنیک ۱: تولید گام‌به‌گام (Step-by-Step Generation) 🪜</h3>
+    <p style="text-align: justify;">برای پروژه‌های بزرگ، از AI نخواهید همه کد را یک‌جا بدهد. <strong>گام‌به‌گام</strong> پیش بروید: «اول ساختار HTML را بنویس»، «حالا CSS را اضافه کن»، «حالا JavaScript را برای اعتبارسنجی فرم اضافه کن». این کار باعث می‌شود هر بخش را جداگانه بررسی کنید و کنترل بهتری روی پروژه داشته باشید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«می‌خواهم یک <strong>ماشین‌حساب آنلاین</strong> بسازم. <strong>گام اول:</strong> فقط ساختار HTML دکمه‌ها و صفحه‌نمایش را بنویس. بعداً CSS و JavaScript را اضافه می‌کنیم.»</div>
+
+    <h3>تکنیک ۲: دیباگ هوشمند (Smart Debugging) 🐞</h3>
+    <p style="text-align: justify;">وقتی کدتان خطا می‌دهد، فقط نگویید «کدم کار نمی‌کند». <strong>کل پیام خطا</strong> و <strong>بخشی از کد که فکر می‌کنید مشکل دارد</strong> را به AI بدهید. او می‌تواند: علت خطا را توضیح دهد، راه‌حل پیشنهاد دهد، و حتی کد اصلاح‌شده را بنویسد. این تکنیک می‌تواند ساعت‌ها وقت شما را ذخیره کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال دیباگ</span>«کد پایتون زیر خطای TypeError: unsupported operand type(s) for +: 'int' and 'str' می‌دهد. <strong>علت خطا چیست و چطور باید آن را برطرف کنم؟</strong> [کد اینجا]»</div>
+
+    <h3>تکنیک ۳: Refactor و بهینه‌سازی (Code Refactoring) ⚡</h3>
+    <p style="text-align: justify;">کدی دارید که کار می‌کند اما <strong>کند، شلخته یا قدیمی</strong> است؟ از AI بخواهید آن را Refactor کند: «این کد را تمیزتر و خواناتر کن»، «سرعت این تابع را بهینه کن»، «این کد را به سبک Functional Programming بازنویسی کن»، «اسم متغیرها را معنادارتر کن». می‌توانید سبک Refactor را هم مشخص کنید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال Refactor</span>«این تابع پایتون کار می‌کند اما خیلی کند است (۱۰ ثانیه برای ۱۰۰۰ رکورد). <strong>سرعتش را با استفاده از List Comprehension و Generator بهینه کن.</strong> کد اصلی: [کد اینجا]»</div>
+
+    <h3>تکنیک ۴: تبدیل بین زبان‌ها (Code Translation) 🔄</h3>
+    <p style="text-align: justify;">کدی به یک زبان دارید و می‌خواهید آن را به <strong>زبان دیگر</strong> تبدیل کنید. AI در این کار استاد است: «این کد JavaScript را به Python تبدیل کن»، «این اسکریپت Bash را به PowerShell ترجمه کن». کد منبع را بدهید، زبان مقصد را بگویید، و هر محدودیتی (مثل «از همان منطق استفاده کن») را ذکر کنید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال تبدیل</span>«این <strong>کد JavaScript</strong> را به <strong>Python</strong> تبدیل کن. از همان منطق استفاده کن اما از کتابخانه‌های استاندارد پایتون. کد JavaScript: [کد اینجا]»</div>
+
+    <h3>تکنیک ۵: ساخت MVP سریع (Rapid Prototyping) 🚀</h3>
+    <p style="text-align: justify;">یک ایده دارید و می‌خواهید <strong>سریع یک نمونه اولیه (MVP)</strong> بسازید تا ببینید کار می‌کند یا نه. به AI بگویید: «یک MVP از ایده زیر بساز: یک اپلیکیشن تحت وب که کاربران می‌توانند لیست کارهای روزانه خود را اضافه، حذف و تیک بزنند. فقط عملکرد اصلی — بدون طراحی پیچیده. با HTML، CSS و JavaScript خالص.»</p>
+    <div class="prompt-box good"><span class="label">✅ مثال MVP</span>«یک <strong>MVP</strong> از یک اپلیکیشن <strong>یادداشت‌برداری</strong> با Streamlit بساز. امکانات: ۱) اضافه کردن یادداشت جدید، ۲) نمایش لیست یادداشت‌ها، ۳) حذف یادداشت. فقط عملکرد اصلی — طراحی ساده. از SQLite برای ذخیره‌سازی استفاده کن.»</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ابزارها                                   -->
+    <!-- ============================================ -->
+    <h3>🛠️ ابزارهای پیشنهادی برای کدنویسی با AI</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.8rem; min-width: 650px;">
+            <thead><tr><th style="padding: 10px 6px;">ابزار</th><th style="padding: 10px 6px;">قیمت</th><th style="padding: 10px 6px;">نوع</th><th style="padding: 10px 6px;">بهترین کاربرد</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px 6px;"><strong>ChatGPT</strong></td><td style="padding: 8px 6px;">رایگان / Plus</td><td style="padding: 8px 6px;">چت‌بات</td><td style="padding: 8px 6px;">کدنویسی عمومی، بهترین برای مبتدیان</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>GitHub Copilot</strong></td><td style="padding: 8px 6px;">رایگان (دانشجویی)</td><td style="padding: 8px 6px;">افزونه VS Code</td><td style="padding: 8px 6px;">تکمیل خودکار کد هنگام تایپ</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Cursor</strong></td><td style="padding: 8px 6px;">رایگان / Pro</td><td style="padding: 8px 6px;">ادیتور کد</td><td style="padding: 8px 6px;">ادیتور کد با AI یکپارچه</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Replit</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">محیط آنلاین</td><td style="padding: 8px 6px;">اجرای آنلاین کد بدون نصب</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Claude</strong></td><td style="padding: 8px 6px;">رایگان / Pro</td><td style="padding: 8px 6px;">چت‌بات</td><td style="padding: 8px 6px;">تحلیل و Refactor کدهای بلند</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box"><span class="label">💡 نکته</span>برای شروع کدنویسی با AI، <strong>ChatGPT</strong> بهترین گزینه است — رایگان، قدرتمند، و با توضیحات کامل. اگر برنامه‌نویس هستید و روزانه کد می‌زنید، <strong>Cursor</strong> یا <strong>GitHub Copilot</strong> را حتماً امتحان کنید — بهره‌وری شما را چند برابر می‌کنند.</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   اشتباهات رایج                              -->
+    <!-- ============================================ -->
+    <h3>🚫 اشتباهات رایج در پرامپت نویسی برای کدنویسی</h3>
+    <ol>
+        <li style="text-align: justify;"><strong>نگفتن زبان برنامه‌نویسی:</strong> «یه کد بنویس» — AI نمی‌داند Python می‌خواهید یا JavaScript.</li>
+        <li style="text-align: justify;"><strong>پرامپت خیلی کلی:</strong> «یه برنامه کاربردی بساز» — بدون جزئیات، خروجی بی‌استفاده خواهد بود.</li>
+        <li style="text-align: justify;"><strong>ندادن پیام خطا:</strong> فقط گفتن «کدم کار نمی‌کنه» — بدون پیام خطا، AI نمی‌تواند کمک کند.</li>
+        <li style="text-align: justify;"><strong>اعتماد کورکورانه به کد:</strong> کدی که AI می‌دهد را همیشه بررسی و تست کنید — ممکن است باگ امنیتی یا منطقی داشته باشد.</li>
+        <li style="text-align: justify;"><strong>درخواست کل پروژه در یک پرامپت:</strong> پروژه بزرگ را به تکه‌های کوچک تقسیم کنید و گام‌به‌گام پیش بروید.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   عیب‌یابی                                   -->
+    <!-- ============================================ -->
+    <h3>🔧 عیب‌یابی — وقتی کد خروجی کار نمی‌کند</h3>
+    <table class="styled-table" style="font-size: 0.82rem;">
+        <thead><tr><th style="padding: 10px 6px;">مشکل</th><th style="padding: 10px 6px;">علت احتمالی</th><th style="padding: 10px 6px;">راه‌حل</th></tr></thead>
+        <tbody>
+            <tr><td style="padding: 8px 6px;">کد اجرا نمی‌شود</td><td style="padding: 8px 6px;">خطای نحوی (Syntax Error)</td><td style="padding: 8px 6px;">پیام خطا را به AI بدهید</td></tr>
+            <tr><td style="padding: 8px 6px;">کد اجرا می‌شود اما خروجی غلط است</td><td style="padding: 8px 6px;">خطای منطقی (Logic Error)</td><td style="padding: 8px 6px;">ورودی و خروجی مورد انتظار را توضیح دهید</td></tr>
+            <tr><td style="padding: 8px 6px;">کد خیلی کند است</td><td style="padding: 8px 6px;">الگوریتم ناکارآمد</td><td style="padding: 8px 6px;">از AI بخواهید Refactor و بهینه کند</td></tr>
+            <tr><td style="padding: 8px 6px;">کد قدیمی به نظر می‌رسد</td><td style="padding: 8px 6px;">از سینتکس قدیمی استفاده شده</td><td style="padding: 8px 6px;">نسخه زبان را مشخص کنید (Python 3.12+)</td></tr>
+            <tr><td style="padding: 8px 6px;">کد کتابخانه‌ای را نمی‌شناسد</td><td style="padding: 8px 6px;">کتابخانه نصب نیست</td><td style="padding: 8px 6px;">بگویید: «فقط از کتابخانه‌های استاندارد»</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   چک‌لیست                                    -->
+    <!-- ============================================ -->
+    <h3>✅ چک‌لیست نهایی — قبل از ارسال پرامپت کدنویسی</h3>
+    <ol>
+        <li style="text-align: justify;">آیا <strong>زبان برنامه‌نویسی</strong> را در همان ابتدا گفته‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>هدف دقیق</strong> کد را توضیح داده‌ام (چه کاری انجام دهد)؟</li>
+        <li style="text-align: justify;">آیا <strong>ورودی و خروجی</strong> را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>سطح تجربه</strong> خود را گفته‌ام (مبتدی/حرفه‌ای)؟</li>
+        <li style="text-align: justify;">آیا <strong>محدودیت‌های فنی</strong> (کتابخانه‌ها، نسخه، فریم‌ورک) را ذکر کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا پروژه بزرگ را به <strong>گام‌های کوچک</strong> تقسیم کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا آماده‌ام کد را <strong>تست کنم</strong> و در صورت خطا، پیام خطا را به AI بدهم؟</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   پرامپت‌های طلایی                            -->
+    <!-- ============================================ -->
+    <h3>🌟 پرامپت‌های طلایی — نمونه‌های نهایی</h3>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۱: اسکریپت پایتون</span>«یک <strong>اسکریپت پایتون</strong> (نسخه ۳.۱۰+) بنویس که تمام فایل‌های <strong>PDF</strong> داخل یک پوشه (و زیرپوشه‌هایش) را پیدا کند، متن آن‌ها را استخراج کند و در یک <strong>فایل CSV</strong> ذخیره کند (ستون اول: نام فایل، ستون دوم: متن استخراج‌شده). <strong>محدودیت:</strong> فقط از کتابخانه‌های استاندارد + PyPDF2. <strong>سطح:</strong> مبتدی — هر خط را با کامنت فارسی توضیح بده. <strong>ورودی:</strong> مسیر پوشه. <strong>خروجی:</strong> فایل CSV در همان پوشه.»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۲: وب‌سایت</span>«یک <strong>صفحه فرود (Landing Page)</strong> برای یک استارتاپ فرضی به نام «Nova» با <strong>HTML، CSS خالص و JavaScript</strong> بنویس. شامل: هدر با لوگو و منو، بخش Hero با عنوان و دکمه، بخش ویژگی‌ها (۳ ستون)، بخش تماس با فرم (نام، ایمیل، پیام)، فوتر. <strong>واکنش‌گرا</strong> برای موبایل. <strong>پالت رنگی:</strong> سفید، آبی نفتی، طلایی. بدون هیچ فریم‌ورک یا کتابخانه خارجی.»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۳: دیباگ</span>«کد پایتون زیر را اجرا می‌کنم و این خطا را می‌گیرم: <strong>IndexError: list index out of range</strong> در خط ۱۲. کد من: [کد اینجا]. <strong>علت خطا چیست و چطور باید آن را برطرف کنم؟</strong> بعد از توضیح، کد اصلاح‌شده را کامل بنویس.»</div>
+
+    <div class="end-section">🏁 پایان فصل چهارم — حالا می‌توانید با AI کدنویسی کنید</div>
+
+    <!-- ==================== آزمون فصل چهارم ==================== -->
+    <!-- توزیع پاسخ‌ها: c:0=4, c:1=4, c:2=4, c:3=3 -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون فصل چهارم</div>
+        <div class="quiz-subtitle">۱۵ سوال چهارگزینه‌ای — پاسخ‌ها به‌صورت متعادل بین ۴ گزینه توزیع شده‌اند</div>
+        <div id="quizChapter4"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'اولین و حیاتی‌ترین قدم در پرامپت کدنویسی چیست؟', o: ['نوشتن کد', 'مشخص کردن زبان برنامه‌نویسی', 'ذخیره فایل', 'اجرای برنامه'], c: 1 },
+            { q: 'اگر مبتدی هستیم، در پرامپت چه باید بگوییم؟', o: ['هیچی', 'کد را خط‌به‌خط با توضیح فارسی بنویس', 'فقط کد را بده', 'فقط عنوان را بگو'], c: 1 },
+            { q: 'GitHub Copilot کجا کار می‌کند؟', o: ['در مرورگر', 'در VS Code', 'در فتوشاپ', 'در اکسل'], c: 1 },
+            { q: 'Cursor چیست؟', o: ['ابزار تصویر', 'ادیتور کد با AI یکپارچه', 'پخش موسیقی', 'ویرایشگر ویدئو'], c: 1 },
+            { q: 'Replit چه کاربردی دارد؟', o: ['تصویرسازی', 'اجرای آنلاین کد بدون نیاز به نصب', 'تولید موسیقی', 'ترجمه'], c: 1 },
+            { q: 'برای ساخت بات تلگرام چه زبانی مناسب است؟', o: ['HTML', 'Python', 'CSS', 'Word'], c: 1 },
+            { q: 'تکنیک دیباگ هوشمند یعنی چه؟', o: ['نادیده گرفتن خطا', 'دادن پیام کامل خطا و کد به AI', 'پاک کردن کد', 'اجرای مجدد'], c: 1 },
+            { q: 'Refactor یعنی چه؟', o: ['نوشتن کد جدید', 'بهبود ساختار کد بدون تغییر عملکرد', 'حذف کد', 'اجرای کد'], c: 1 },
+            { q: 'MVP در برنامه‌نویسی یعنی چه؟', o: ['بازی', 'محصول حداقلی (Minimum Viable Product)', 'وب‌سایت', 'اپلیکیشن'], c: 1 },
+            { q: 'اگر پیام خطا را به AI ندهیم، چه می‌شود؟', o: ['AI خودش خطا را حدس می‌زند', 'AI نمی‌تواند کمک مؤثری کند', 'AI کد را پاک می‌کند', 'هیچی'], c: 1 },
+            { q: 'کدام ابزار برای اجرای کد بدون نصب استفاده می‌شود؟', o: ['Photoshop', 'Replit', 'Word', 'Excel'], c: 1 },
+            { q: 'برای ساخت وب‌سایت ساده از چه زبان‌هایی استفاده می‌کنیم؟', o: ['Python', 'HTML + CSS + JavaScript', 'Java', 'C++'], c: 1 },
+            { q: 'تکنیک تبدیل کد بین زبان‌ها یعنی چه؟', o: ['ترجمه کد از یک زبان به زبان دیگر', 'کپی کردن کد', 'حذف کد', 'اجرای کد'], c: 0 },
+            { q: 'رایج‌ترین اشتباه در پرامپت کدنویسی چیست؟', o: ['پرامپت بلند', 'نگفتن زبان برنامه‌نویسی', 'انگلیسی نوشتن', 'استفاده از جدول'], c: 1 },
+            { q: 'بهترین راه یادگیری کدنویسی با AI چیست؟', o: ['فقط خواندن', 'تمرین با پروژه‌های کوچک واقعی', 'حفظ کردن', 'فیلم دیدن'], c: 1 }
+        ];
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizChapter4');
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون فصل چهارم</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qc4Select(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qc4Next()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+        window.qc4Select = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qc4Next = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! فصل چهارم را کامل آموختی.' : p >= 70 ? 'خوب است! آماده فصل پنجم.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qc4Restart()">🔄 شروع دوباره</button></div>';
+        }
+        window.qc4Restart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        <article class="page-card content-section" id="chapter4">
+            <!-- محتوای فصل چهارم اینجا قرار می‌گیرد -->
+        </article>
+
+        <!-- ==================== فصل پنجم ==================== -->
+        <!-- ==================== فصل پنجم ==================== -->
+<!-- این کد را دقیقاً به جای خطوط مربوط به فصل پنجم در فایل اصلی قرار بده -->
+<article class="page-card content-section" id="chapter5" style="text-align: justify;">
+    <div class="breadcrumb">🎬 فصل پنجم</div>
+    <div class="section-title"><span class="icon">🎙️</span> پرامپت نویسی برای صدا، پادکست و ویدئو</div>
+
+    <p style="text-align: justify;">آینده تولید محتوا، <strong>چندرسانه‌ای</strong> است. هوش مصنوعی مولد حالا می‌تواند نه فقط متن و تصویر، بلکه <strong>صدا، موسیقی و ویدئو</strong> نیز تولید کند. از یک پادکست حرفه‌ای تا یک کتاب صوتی، از یک آهنگ کامل تا یک ویدئوی کوتاه برای تیک‌تاک — همه با <strong>پرامپت نویسی</strong> قابل انجام است. در این فصل، اصول، تکنیک‌ها و ابزارهای این حوزه را به‌صورت کامل یاد می‌گیرید.</p>
+
+    <div class="info-box"><span class="label">💡 نکته کلیدی</span>ابزارهای این حوزه نسبت به ابزارهای متنی و تصویری <strong>جدیدتر</strong> هستند و با سرعت زیادی در حال پیشرفت می‌باشند. بسیاری از آن‌ها نسخه رایگان یا اعتبار آزمایشی دارند. بهترین کار این است که چند ابزار را امتحان کنید و ببینید کدام یک با سبک کار شما هماهنگ‌تر است.</div>
+
+    <!-- ============================================ -->
+    <!--   USE CASES                                 -->
+    <!-- ============================================ -->
+    <h3>📍 با پرامپت نویسی برای صدا و ویدئو چه کارهایی می‌توانیم انجام دهیم؟</h3>
+    <p style="text-align: justify;">قبل از ورود به تکنیک‌ها، ببینیم این مهارت در چه موقعیت‌های واقعی به کار می‌آید:</p>
+
+    <div class="use-case-grid">
+        <div class="use-case-card"><span class="use-case-icon">🎙️</span><span class="use-case-text"><strong>اسکریپت پادکست و کتاب صوتی:</strong> نوشتن متن کامل اپیزود، ساختار مقدمه-محتوا-جمع‌بندی، معرفی مهمان</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🔊</span><span class="use-case-text"><strong>تبدیل متن به گفتار (TTS):</strong> گویندگی با صدای طبیعی، کتاب صوتی، راهنمای صوتی، پیام تلفنی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🎵</span><span class="use-case-text"><strong>تولید موسیقی:</strong> آهنگ کامل با شعر و خواننده، موسیقی بی‌کلام برای ویدئو، آهنگ پس‌زمینه پادکست</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🎥</span><span class="use-case-text"><strong>تولید ویدئو از متن:</strong> تبدیل توضیحات متنی به کلیپ کوتاه، انیمیشن ساده، ویدئوی آموزشی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🗣️</span><span class="use-case-text"><strong>آواتار سخنگو:</strong> ویدئوی معرفی محصول با گوینده مجازی، آموزش با مربی دیجیتال، پیام شخصی‌سازی‌شده</span></div>
+        <div class="use-case-card"><span class="use-case-icon">✂️</span><span class="use-case-text"><strong>تدوین ویدئو با AI:</strong> زیرنویس خودکار، حذف سکوت‌ها، افکت‌های هوشمند، تغییر اندازه برای پلتفرم‌های مختلف</span></div>
+        <div class="use-case-card"><span class="use-case-icon">🎧</span><span class="use-case-text"><strong>افکت‌های صوتی:</strong> تولید صدای محیط (باران، جنگل، شهر)، صدای اشیاء (در، ماشین)، صدای انتزاعی</span></div>
+        <div class="use-case-card"><span class="use-case-icon">📣</span><span class="use-case-text"><strong>کمپین صوتی-تصویری:</strong> طراحی کامل یک کمپین شامل پادکست، ویدئو، موسیقی و آواتار</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۶ اصل طلایی                                -->
+    <!-- ============================================ -->
+    <h3>🧠 ۶ اصل طلایی پرامپت نویسی برای صدا و ویدئو</h3>
+    <p style="text-align: justify;">این اصول، چک‌لیست ذهنی شما قبل از نوشتن هر پرامپت صوتی یا ویدئویی هستند:</p>
+
+    <h3>اصل اول: نوع خروجی را دقیق مشخص کنید 🎯</h3>
+    <p style="text-align: justify;"><strong>اولین و مهم‌ترین قدم.</strong> AI باید بداند چه نوع محتوایی می‌خواهید: «یک اسکریپت پادکست ۵ دقیقه‌ای»، «یک فایل صوتی با صدای مرد میانسال»، «یک آهنگ ۳ دقیقه‌ای در سبک پاپ»، «یک ویدئوی ۳۰ ثانیه‌ای برای تیک‌تاک». اگر نوع خروجی را نگویید، AI نمی‌داند متن تولید کند، صدا بسازد، یا ویدئو خلق کند.</p>
+    <div class="prompt-box bad"><span class="label">❌ ضعیف</span>«یه چیزی در مورد تاریخ ایران بساز.»</div>
+    <div class="prompt-box good"><span class="label">✅ دقیق</span>«یک <strong>اسکریپت پادکست ۵ دقیقه‌ای</strong> درباره تاریخچه تخت جمشید بنویس. لحن: روایی و داستان‌گو. ساختار: مقدمه جذاب، ۳ بخش اصلی، جمع‌بندی با دعوت به دنبال کردن.»</div>
+
+    <h3>اصل دوم: مدت زمان را حتماً بگویید ⏱️</h3>
+    <p style="text-align: justify;">در تولید محتوای صوتی و ویدئویی، <strong>مدت زمان</strong> یک پارامتر حیاتی است. «یک پادکست ۵ دقیقه‌ای»، «ویدئوی ۳۰ ثانیه‌ای»، «آهنگ ۳ دقیقه‌ای»، «کتاب صوتی ۱۰ دقیقه‌ای». اگر مدت زمان را نگویید، AI ممکن است محتوایی بسیار کوتاه یا بسیار بلند تولید کند که مناسب پلتفرم شما نباشد. برای پادکست: ۵-۱۵ دقیقه (کوتاه)، ۲۰-۴۰ دقیقه (استاندارد)، ۶۰+ دقیقه (بلند). برای تیک‌تاک و ریلز: ۱۵-۶۰ ثانیه. برای یوتیوب: ۸-۱۵ دقیقه.</p>
+    <div class="prompt-box bad"><span class="label">❌ بدون مدت</span>«یه پادکست در مورد موفقیت بساز.»</div>
+    <div class="prompt-box good"><span class="label">✅ با مدت</span>«یک اسکریپت <strong>۸ دقیقه‌ای</strong> برای پادکست درباره «عادت‌های صبحگاهی افراد موفق» بنویس.»</div>
+
+    <h3>اصل سوم: لحن، سبک و حس را توصیف کنید 🎭</h3>
+    <p style="text-align: justify;">محتوای صوتی و ویدئویی <strong>به‌شدت وابسته به حس و لحن</strong> است. برای پادکست: «لحن گرم و صمیمی مثل گفتگوی دوستانه»، «لحن رسمی و تحلیلی مثل گزارش خبری»، «لحن انگیزشی و پرشور مثل سخنرانی TED». برای موسیقی: «سبک Lofi hip-hop با تمپوی آرام و حس نوستالژیک»، «سبک Epic Orchestral با تمپوی تند و حس حماسی». برای ویدئو: «لحن پرانرژی و سریع مخصوص تیک‌تاک»، «لحن آرام و آموزشی مخصوص یوتیوب».</p>
+
+    <h3>اصل چهارم: ساختار را مشخص کنید 🏗️</h3>
+    <p style="text-align: justify;">ساختار استاندارد اسکریپت پادکست و ویدئو از سه بخش اصلی تشکیل می‌شود: <strong>مقدمه (Hook)</strong> — ۱۰-۱۵٪ از کل زمان، باید در ۵ ثانیه اول مخاطب را میخکوب کند. <strong>محتوای اصلی (Body)</strong> — ۷۰-۸۰٪ از کل زمان، شامل ۳-۵ نکته اصلی با مثال. <strong>جمع‌بندی (Outro)</strong> — ۱۰-۱۵٪ از کل زمان، شامل خلاصه، فراخوان به اقدام (Call to Action) و دعوت به اپیزود بعدی. این ساختار را در پرامپت خود ذکر کنید تا خروجی حرفه‌ای و استاندارد باشد.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال ساختار</span>«ساختار اسکریپت: <strong>Hook:</strong> یک سوال جنجالی یا آمار تکان‌دهنده (۳۰ ثانیه)، <strong>Body:</strong> ۳ عادت اصلی با مثال واقعی (۶ دقیقه)، <strong>Outro:</strong> خلاصه و چالش ۷ روزه برای شنونده (۱.۵ دقیقه).»</div>
+
+    <h3>اصل پنجم: مخاطب هدف را بگویید 👥</h3>
+    <p style="text-align: justify;">محتوایی که برای <strong>نوجوانان ۱۵-۱۸ ساله</strong> می‌سازید با محتوایی که برای <strong>مدیران اجرایی ۴۰-۵۰ ساله</strong> تهیه می‌کنید کاملاً متفاوت است. مخاطب هدف تعیین‌کننده لحن، سرعت، پیچیدگی کلمات، نوع مثال‌ها و حتی سبک موسیقی پس‌زمینه است. همیشه بگویید: «مناسب برای...»، «مخاطب هدف: ...».</p>
+
+    <h3>اصل ششم: پلتفرم مقصد را مشخص کنید 📱</h3>
+    <p style="text-align: justify;">هر پلتفرم الزامات متفاوتی دارد: <strong>تیک‌تاک و ریلز:</strong> عمودی (9:16)، سریع، پرانرژی، حداکثر ۶۰ ثانیه. <strong>یوتیوب:</strong> افقی (16:9)، می‌تواند بلندتر باشد، با ساختار منسجم. <strong>پادکست:</strong> فقط صوتی، می‌تواند طولانی باشد، نیاز به ساختار شفاف. <strong>استوری اینستاگرام:</strong> عمودی، حداکثر ۱۵ ثانیه هر بخش. پلتفرم مقصد را بگویید تا AI محتوا را متناسب با آن تنظیم کند.</p>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ۵ تکنیک پیشرفته                             -->
+    <!-- ============================================ -->
+    <h3>📋 ۵ تکنیک پیشرفته پرامپت نویسی برای صدا و ویدئو</h3>
+
+    <h3>تکنیک ۱: درخواست چند نسخه با سبک‌های مختلف 🎭</h3>
+    <p style="text-align: justify;">برای اسکریپت پادکست یا ویدئو، از AI بخواهید <strong>چند نسخه با سبک‌های متفاوت</strong> بنویسد. این تکنیک به شما حق انتخاب می‌دهد: «۳ نسخه از این اسکریپت بنویس: یکی رسمی و تحلیلی، یکی طنز و خودمانی، یکی احساسی و داستان‌گو». سپس بهترین را انتخاب کنید یا ترکیبی از هر سه بسازید.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«برای معرفی یک کتاب جدید، <strong>۳ نسخه اسکریپت ۲ دقیقه‌ای</strong> بنویس: ۱) رسمی و منتقدانه (مثل برنامه‌های نقد کتاب)، ۲) صمیمی و خودمانی (مثل گفتگوی دوستانه)، ۳) هیجانی و پرانرژی (مثل تیزر فروش).»</div>
+
+    <h3>تکنیک ۲: توصیف صدا و گوینده 🎤</h3>
+    <p style="text-align: justify;">برای تبدیل متن به گفتار (TTS)، <strong>ویژگی‌های صدا</strong> را دقیق توصیف کنید: «صدای مرد میانسال با تُن گرم و اطمینان‌بخش»، «صدای زن جوان با لحن پرانرژی و شاد»، «صدای آرام و مدیتیشنی با سرعت کم»، «صدای گوینده حرفه‌ای اخبار با سرعت متوسط». در ElevenLabs می‌توانید حتی نمونه صدای واقعی آپلود کنید و AI آن را تقلید کند. هرچه توصیف دقیق‌تر باشد، خروجی طبیعی‌تر خواهد بود.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«این متن را با <strong>صدای مرد میانسال، تُن گرم و آرامش‌بخش، سرعت متوسط، مکث‌های طبیعی</strong> بین جملات، مناسب برای کتاب صوتی شبانه تبدیل به گفتار کن. در ElevenLabs.»</div>
+
+    <h3>تکنیک ۳: توصیف سبک موسیقی با جزئیات 🎵</h3>
+    <p style="text-align: justify;">برای تولید موسیقی با AI (مثل Suno یا Udio)، <strong>سبک، تمپو، سازها و حس</strong> را دقیق توصیف کنید. «یک آهنگ Lofi hip-hop با تمپوی آرام (۷۰ BPM)، پیانو ملایم، بیس عمیق، صدای باران در پس‌زمینه، حس نوستالژیک و آرامش‌بخش». «یک آهنگ پاپ شاد با تمپوی تند (۱۲۰ BPM)، گیتار الکتریک، سینتی‌سایزر، صدای زن، متن درباره تابستان و دریا». همچنین می‌توانید ساختار آهنگ را بگویید: «با Intro آرام، Verse، Chorus پرانرژی، Verse دوم، Bridge، Chorus نهایی، Outro».</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«یک <strong>آهنگ ۳ دقیقه‌ای</strong> در سبک <strong>Lofi jazz-hop</strong>، تمپوی ۸۰ BPM، با ساکسیفون ملایم، پیانو، بیس واکینگ، صدای وینیل قدیمی در پس‌زمینه، حس گرم و نوستالژیک یک کافه بارانی. ساختار: Intro ۲۰ ثانیه، Verse-Chorus-Verse-Chorus، Outro محو شونده.»</div>
+
+    <h3>تکنیک ۴: توصیف صحنه ویدئو با جزئیات بصری 🎬</h3>
+    <p style="text-align: justify;">برای تولید ویدئو با RunwayML یا Pika، <strong>صحنه را مانند یک پرامپت تصویری</strong> توصیف کنید — اما با اضافه کردن <strong>حرکت و زمان</strong>: «دوربین به آرامی از چپ به راست حرکت می‌کند»، «شخصیت به سمت دوربین راه می‌رود»، «برگ‌ها در باد تکان می‌خورند»، «نور خورشید به تدریج غروب می‌کند». عنصر <strong>زمان و حرکت</strong> چیزی است که پرامپت ویدئو را از پرامپت تصویر متمایز می‌کند.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال</span>«A serene mountain lake at sunrise, camera slowly pans from left to right, mist gently rising from the water surface, golden light gradually increasing, pine trees swaying slightly in the breeze, 8K, cinematic, 10 seconds, --ar 16:9»</div>
+
+    <h3>تکنیک ۵: طراحی کمپین کامل (All-in-One Campaign) 📣</h3>
+    <p style="text-align: justify;">برای یک رویداد یا محصول، از AI بخواهید <strong>همه محتوای صوتی-تصویری</strong> را یک‌جا طراحی کند: «برای راه‌اندازی محصول جدیدمان، یک بسته کامل آماده کن: ۱) اسکریپت پادکست معرفی (۱۰ دقیقه)، ۲) متن ۳ تیزر ویدئویی (هرکدام ۳۰ ثانیه برای اینستاگرام)، ۳) ایده برای ۵ استوری، ۴) یک آهنگ کوتاه برای پس‌زمینه تیزرها». این تکنیک برای کسب‌وکارها و تیم‌های بازاریابی فوق‌العاده ارزشمند است.</p>
+    <div class="prompt-box good"><span class="label">✅ مثال کمپین</span>«برای <strong>راه‌اندازی یک دوره آموزشی آنلاین</strong> «هنر پرامپت نویسی»، یک <strong>بسته کامل محتوایی</strong> آماده کن: ۱) اسکریپت پادکست ۱۰ دقیقه‌ای معرفی دوره، ۲) متن ۳ تیزر ویدئویی ۳۰ ثانیه‌ای برای اینستاگرام (لحن: هیجانی و کنجکاوی‌برانگیز)، ۳) ۵ ایده برای استوری تبلیغاتی، ۴) توضیح یک آهنگ کوتاه انگیزشی برای پس‌زمینه تیزرها.»</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   ابزارها                                   -->
+    <!-- ============================================ -->
+    <h3>🛠️ ابزارهای پیشنهادی برای صدا و ویدئو</h3>
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table class="styled-table" style="font-size: 0.78rem; min-width: 650px;">
+            <thead><tr><th style="padding: 10px 6px;">ابزار</th><th style="padding: 10px 6px;">قیمت</th><th style="padding: 10px 6px;">نوع خروجی</th><th style="padding: 10px 6px;">بهترین کاربرد</th></tr></thead>
+            <tbody>
+                <tr><td style="padding: 8px 6px;"><strong>ElevenLabs</strong></td><td style="padding: 8px 6px;">رایگان (۱۰ دقیقه/ماه)</td><td style="padding: 8px 6px;">صدا (TTS)</td><td style="padding: 8px 6px;">تبدیل متن به گفتار با صدای طبیعی</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Suno AI</strong></td><td style="padding: 8px 6px;">رایگان (۵ آهنگ/روز)</td><td style="padding: 8px 6px;">موسیقی</td><td style="padding: 8px 6px;">تولید آهنگ کامل با شعر و خواننده</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>Udio</strong></td><td style="padding: 8px 6px;">رایگان (محدود)</td><td style="padding: 8px 6px;">موسیقی</td><td style="padding: 8px 6px;">کیفیت بالای صدا، سبک‌های متنوع</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>CapCut</strong></td><td style="padding: 8px 6px;">رایگان</td><td style="padding: 8px 6px;">تدوین ویدئو</td><td style="padding: 8px 6px;">زیرنویس خودکار، افکت، برش هوشمند</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>RunwayML</strong></td><td style="padding: 8px 6px;">رایگان (اعتبار محدود)</td><td style="padding: 8px 6px;">ویدئو از متن</td><td style="padding: 8px 6px;">تولید ویدئو با Gen-2 و Gen-3</td></tr>
+                <tr><td style="padding: 8px 6px;"><strong>HeyGen</strong></td><td style="padding: 8px 6px;">رایگان (۱ ویدئو)</td><td style="padding: 8px 6px;">آواتار سخنگو</td><td style="padding: 8px 6px;">شخصیت مجازی که صحبت می‌کند</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box"><span class="label">💡 نکته</span>برای شروع، <strong>ElevenLabs</strong> (برای تبدیل متن به گفتار) و <strong>Suno AI</strong> (برای تولید موسیقی) را توصیه می‌کنیم — هر دو رایگان هستند و خروجی باکیفیتی دارند. برای تدوین ویدئو، <strong>CapCut</strong> با زیرنویس خودکار و افکت‌های هوشمند، بهترین گزینه رایگان است.</div>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   اشتباهات رایج                              -->
+    <!-- ============================================ -->
+    <h3>🚫 اشتباهات رایج در پرامپت نویسی برای صدا و ویدئو</h3>
+    <ol>
+        <li style="text-align: justify;"><strong>نگفتن مدت زمان:</strong> «یه پادکست بساز» — AI نمی‌داند ۲ دقیقه می‌خواهید یا ۲ ساعت.</li>
+        <li style="text-align: justify;"><strong>توصیف نکردن حس و لحن:</strong> خروجی خشک و بی‌روح می‌شود — مخصوصاً در پادکست و موسیقی که حس حرف اول را می‌زند.</li>
+        <li style="text-align: justify;"><strong>ندادن ساختار:</strong> بدون Hook جذاب و Outro با فراخوان به اقدام، محتوای شما حرفه‌ای به نظر نمی‌رسد.</li>
+        <li style="text-align: justify;"><strong>انتظار بی‌نقص بودن در اولین تلاش:</strong> تولید صدا و ویدئو با AI نیاز به تکرار و اصلاح دارد. خروجی اول را بررسی کنید و پرامپت را بهبود دهید.</li>
+        <li style="text-align: justify;"><strong>فراموش کردن پلتفرم مقصد:</strong> ویدئوی ۱۶:۹ برای یوتیوب با ویدئوی ۹:۱۶ برای تیک‌تاک کاملاً متفاوت است.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   عیب‌یابی                                   -->
+    <!-- ============================================ -->
+    <h3>🔧 عیب‌یابی — وقتی خروجی صوتی یا ویدئویی خوب نیست</h3>
+    <table class="styled-table" style="font-size: 0.8rem;">
+        <thead><tr><th style="padding: 10px 6px;">مشکل</th><th style="padding: 10px 6px;">علت احتمالی</th><th style="padding: 10px 6px;">راه‌حل</th></tr></thead>
+        <tbody>
+            <tr><td style="padding: 8px 6px;">صدای مصنوعی و رباتی</td><td style="padding: 8px 6px;">از ابزار ضعیف استفاده کردید</td><td style="padding: 8px 6px;">ElevenLabs را امتحان کنید</td></tr>
+            <tr><td style="padding: 8px 6px;">آهنگ بی‌ربط و شلخته</td><td style="padding: 8px 6px;">سبک و ساختار را نگفتید</td><td style="padding: 8px 6px;">سبک، تمپو و ساختار را دقیق بگویید</td></tr>
+            <tr><td style="padding: 8px 6px;">ویدئو کوتاه‌تر از حد انتظار</td><td style="padding: 8px 6px;">مدت زمان را مشخص نکردید</td><td style="padding: 8px 6px;">مدت زمان را در پرامپت بگویید</td></tr>
+            <tr><td style="padding: 8px 6px;">زیرنویس خودکار غلط است</td><td style="padding: 8px 6px;">کیفیت صدای پایین</td><td style="padding: 8px 6px;">صدای واضح ضبط کنید، سپس تصحیح کنید</td></tr>
+            <tr><td style="padding: 8px 6px;">اسکریپت خیلی کوتاه یا بلند</td><td style="padding: 8px 6px;">مدت زمان را نگفتید</td><td style="padding: 8px 6px;">مدت زمان دقیق را در پرامپت بگویید</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   چک‌لیست                                    -->
+    <!-- ============================================ -->
+    <h3>✅ چک‌لیست نهایی — قبل از ارسال پرامپت صوتی یا ویدئویی</h3>
+    <ol>
+        <li style="text-align: justify;">آیا <strong>نوع خروجی</strong> را دقیقاً گفته‌ام (پادکست، موسیقی، ویدئو، TTS)؟</li>
+        <li style="text-align: justify;">آیا <strong>مدت زمان</strong> را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>لحن، سبک و حس</strong> را توصیف کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>ساختار</strong> (Hook، Body، Outro) را ذکر کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>مخاطب هدف</strong> را گفته‌ام؟</li>
+        <li style="text-align: justify;">آیا <strong>پلتفرم مقصد</strong> (یوتیوب، تیک‌تاک، اسپاتیفای) را مشخص کرده‌ام؟</li>
+        <li style="text-align: justify;">آیا آماده‌ام خروجی اول را <strong>بررسی و اصلاح</strong> کنم؟</li>
+    </ol>
+
+    <hr class="divider">
+
+    <!-- ============================================ -->
+    <!--   پرامپت‌های طلایی                            -->
+    <!-- ============================================ -->
+    <h3>🌟 پرامپت‌های طلایی — نمونه‌های نهایی</h3>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۱: اسکریپت پادکست</span>«یک <strong>اسکریپت ۸ دقیقه‌ای</strong> برای پادکست درباره «هنر نه گفتن» بنویس. <strong>لحن:</strong> گرم، صمیمی و خودمانی — مثل گفتگوی دوستانه. <strong>ساختار:</strong> Hook (یک داستان کوتاه از تجربه شخصی، ۴۵ ثانیه)، Body (۳ تکنیک اصلی با مثال واقعی، ۶ دقیقه)، Outro (خلاصه و چالش ۵ روزه برای تمرین، ۱ دقیقه). <strong>مخاطب:</strong> افراد ۲۵-۴۰ ساله که در محیط کار یا خانواده در نه گفتن مشکل دارند. <strong>پلتفرم:</strong> اسپاتیفای و کست‌باکس.»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۲: تولید موسیقی</span>«یک <strong>آهنگ ۳ دقیقه‌ای</strong> در <strong>سبک Synthwave/Retrowave</strong> با تمپوی ۱۱۰ BPM بساز. <strong>حس:</strong> نوستالژیک دهه ۸۰، رانندگی در بزرگراه شبانه با نورهای نئون. <strong>سازها:</strong> سینتی‌سایزر اصلی، بیس عمیق، درام ماشین الکترونیک، ملودی ساکسیفون در بخش میانی. <strong>ساختار:</strong> Intro (۲۰ ثانیه)، Verse-Chorus-Verse-Chorus، Bridge با سولو ساکسیفون (۳۰ ثانیه)، Chorus نهایی، Outro محو شونده. <strong>در Suno AI</strong>»</div>
+
+    <div class="prompt-box good"><span class="label">🏆 طلایی ۳: ویدئوی کوتاه</span>«یک <strong>ویدئوی ۱۵ ثانیه‌ای</strong> برای <strong>ریلز اینستاگرام</strong> از یک فنجان قهوه داغ روی میز چوبی کنار پنجره بارانی. دوربین به آرامی از نمای نزدیک فنجان به سمت پنجره حرکت می‌کند (dolly out). بخار ملایم از قهوه بلند می‌شود. نور گرم و ملایم. قطرات باران روی شیشه. حس دنج و آرامش‌بخش. بدون متن. 9:16 عمودی. <strong>در RunwayML</strong>»</div>
+
+    <div class="end-section">🏁 پایان فصل پنجم — حالا می‌توانید محتوای صوتی و ویدئویی حرفه‌ای با AI خلق کنید</div>
+
+    <!-- ==================== آزمون فصل پنجم ==================== -->
+    <!-- توزیع پاسخ‌ها: c:0=4, c:1=4, c:2=4, c:3=3 -->
+    <div class="quiz-section">
+        <div class="quiz-title">📝 آزمون فصل پنجم</div>
+        <div class="quiz-subtitle">۱۵ سوال چهارگزینه‌ای — پاسخ‌ها به‌صورت متعادل بین ۴ گزینه توزیع شده‌اند</div>
+        <div id="quizChapter5"></div>
+    </div>
+
+    <div class="back-btn"><button onclick="backToFihrist()">📚 بازگشت به فهرست</button></div>
+
+    <script>
+    (function() {
+        var quizData = [
+            { q: 'اولین و مهم‌ترین قدم در پرامپت صوتی یا ویدئویی چیست؟', o: ['نوشتن متن', 'انتخاب موسیقی', 'مشخص کردن نوع خروجی', 'ذخیره فایل'], c: 2 },
+            { q: 'ساختار استاندارد اسکریپت پادکست از چه بخش‌هایی تشکیل می‌شود؟', o: ['فقط صحبت کردن', 'مقدمه (Hook) + محتوای اصلی (Body) + جمع‌بندی (Outro)', 'فقط موسیقی', 'فقط مصاحبه'], c: 1 },
+            { q: 'ElevenLabs برای چه کاری استفاده می‌شود؟', o: ['تولید موسیقی', 'تدوین ویدئو', 'تبدیل متن به گفتار (TTS)', 'ساخت آواتار'], c: 2 },
+            { q: 'Suno AI روزانه چند آهنگ رایگان می‌دهد؟', o: ['۱ آهنگ', '۱۰ آهنگ', '۵ آهنگ', 'نامحدود'], c: 2 },
+            { q: 'CapCut چه قابلیت AI دارد؟', o: ['تولید موسیقی', 'زیرنویس خودکار و تدوین هوشمند', 'تبدیل متن به گفتار', 'ساخت آواتار'], c: 1 },
+            { q: 'برای تیک‌تاک و ریلز چه لحنی مناسب است؟', o: ['پرانرژی و سریع', 'بسیار آرام و خواب‌آور', 'رسمی و جدی', 'بی‌صدا و زیرنویس‌دار'], c: 0 },
+            { q: 'RunwayML برای چه کاری استفاده می‌شود؟', o: ['تولید موسیقی', 'کدنویسی', 'تولید ویدئو از متن', 'تحلیل داده'], c: 2 },
+            { q: 'آواتار سخنگو (Talking Avatar) یعنی چه؟', o: ['عکس ثابت', 'شخصیت مجازی که صحبت می‌کند', 'متن نوشته', 'کد برنامه‌نویسی'], c: 1 },
+            { q: 'HeyGen چه کاربردی دارد؟', o: ['ساخت آواتار سخنگو', 'تولید تصویر', 'ساخت موسیقی', 'کدنویسی'], c: 0 },
+            { q: 'برای تولید موسیقی با AI چه اطلاعاتی باید بدهیم؟', o: ['فقط نام خواننده', 'سبک، تمپو، سازها و حس', 'فقط نت موسیقی', 'فقط اسم آهنگ'], c: 1 },
+            { q: 'Udio چه نوع ابزاری است؟', o: ['ابزار تصویر', 'ابزار تولید موسیقی', 'ابزار کدنویسی', 'ابزار تحلیل داده'], c: 1 },
+            { q: 'چرا باید پلتفرم مقصد را در پرامپت بگوییم؟', o: ['برای زیبایی', 'چون هر پلتفرم الزامات متفاوتی دارد', 'برای سئو', 'برای افزایش حجم'], c: 1 },
+            { q: 'ElevenLabs ماهانه چقدر رایگان است؟', o: ['نامحدود', '۱ ساعت', '۱۰ دقیقه', '۳۰ دقیقه'], c: 2 },
+            { q: 'رایج‌ترین اشتباه در پرامپت صوتی و ویدئویی چیست؟', o: ['پرامپت بلند', 'نگفتن مدت زمان', 'انگلیسی نوشتن', 'استفاده از جدول'], c: 1 },
+            { q: 'بهترین راه یادگیری پرامپت نویسی برای صدا و ویدئو چیست؟', o: ['فقط خواندن', 'تمرین با پروژه واقعی', 'حفظ کردن', 'نگاه کردن'], c: 1 }
+        ];
+        var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+        var cnt = document.getElementById('quizChapter5');
+        function render() {
+            if (fin) { showR(); return; }
+            var q = quizData[cur];
+            var h = '<div class="quiz-progress"><span>📋 آزمون فصل پنجم</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+            h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+            for (var i = 0; i < q.o.length; i++) {
+                h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window.qc5Select(' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+            }
+            h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window.qc5Next()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+            cnt.innerHTML = h;
+        }
+        window.qc5Select = function(i) { if (fin) return; ans[cur] = i; render(); };
+        window.qc5Next = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+        function showR() {
+            var c = 0, w = 0;
+            for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+            var p = Math.round((c / quizData.length) * 100);
+            var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+            var fb = p === 100 ? 'عالی! فصل پنجم را کامل آموختی.' : p >= 70 ? 'خوب است! کل دوره را به‌پایان رساندی.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+            cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window.qc5Restart()">🔄 شروع دوباره</button></div>';
+        }
+        window.qc5Restart = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+        render();
+    })();
+    </script>
+</article>
+        <article class="page-card content-section" id="chapter5">
+            <!-- محتوای فصل پنجم اینجا قرار می‌گیرد -->
+        </article>
+    </main>
+
+    <footer class="footer">طراحی، توسعه و تدوین | <span class="brand">jalalsalehi.ir</span></footer>
+
+    <script>
+        function showContent(id) {
+            document.querySelectorAll('.content-section').forEach(function(el) { el.classList.remove('active'); });
+            document.getElementById('fihristPage').style.display = 'none';
+            var target = document.getElementById(id);
+            if (target) { target.classList.add('active'); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        }
+        function backToFihrist() {
+            document.querySelectorAll('.content-section').forEach(function(el) { el.classList.remove('active'); });
+            document.getElementById('fihristPage').style.display = 'block';
+            document.getElementById('fihristPage').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function createQuiz(containerId, quizData) {
+            var cur = 0, ans = new Array(quizData.length).fill(null), fin = false;
+            var cnt = document.getElementById(containerId);
+            function render() {
+                if (fin) { showR(); return; }
+                var q = quizData[cur];
+                var h = '<div class="quiz-progress"><span>📋 آزمون</span><span class="counter">سوال ' + (cur+1) + ' از ' + quizData.length + '</span></div>';
+                h += '<div class="question-text">' + (cur+1) + '. ' + q.q + '</div><ul class="options-list">';
+                for (var i = 0; i < q.o.length; i++) {
+                    h += '<li class="option-item' + (ans[cur] === i ? ' selected' : '') + '" onclick="window[\'sel_' + containerId + '\'](' + i + ')"><div class="option-radio"></div><span>' + q.o[i] + '</span></li>';
+                }
+                h += '</ul><button class="quiz-btn btn-next"' + (ans[cur] === null ? ' disabled' : '') + ' onclick="window[\'nxt_' + containerId + '\']()">' + (cur === quizData.length - 1 ? '✅ پایان آزمون' : '➡️ سوال بعدی') + '</button>';
+                cnt.innerHTML = h;
+            }
+            window['sel_' + containerId] = function(i) { if (fin) return; ans[cur] = i; render(); };
+            window['nxt_' + containerId] = function() { if (ans[cur] === null) return; if (cur < quizData.length - 1) { cur++; render(); } else { fin = true; showR(); } };
+            function showR() {
+                var c = 0, w = 0;
+                for (var i = 0; i < quizData.length; i++) { if (ans[i] === quizData[i].c) c++; else w++; }
+                var p = Math.round((c / quizData.length) * 100);
+                var ic = p === 100 ? '🌟' : p >= 70 ? '👏' : p >= 50 ? '📖' : '💪';
+                var fb = p === 100 ? 'عالی! کاملاً مسلط هستی.' : p >= 70 ? 'خوب است! آماده فصل بعدی.' : p >= 50 ? 'قابل قبول. مرور کن.' : 'نیاز به تمرین داری.';
+                cnt.innerHTML = '<div class="result-box"><div class="result-icon">' + ic + '</div><div style="font-size:1.2rem;font-weight:700;">آزمون به پایان رسید</div><div class="result-score">' + p + '%</div><div class="result-detail">درست: <span class="correct-count">' + c + '</span> | نادرست: <span class="wrong-count">' + w + '</span></div><div class="result-bar"><div class="result-bar-fill" style="width:' + p + '%;"></div></div><p>' + fb + '</p><button class="quiz-btn btn-restart" onclick="window[\'rst_' + containerId + '\']()">🔄 شروع دوباره</button></div>';
+            }
+            window['rst_' + containerId] = function() { cur = 0; ans = new Array(quizData.length).fill(null); fin = false; render(); };
+            render();
+        }
+    </script>
+</body>
+</html>
